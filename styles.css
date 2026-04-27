@@ -1,0 +1,254 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  body {
+    background: #f9f9f9;
+    color: #333;
+  }
+  
+  /* NAVBAR */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 50px;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    align-items: center;
+  }
+  
+  .navbar .logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: #0B3C5D;
+  }
+  
+  .navbar nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .navbar .btn {
+    background: #0B3C5D;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+  }
+  
+  /* HERO */
+  .hero {
+    position: relative;
+    height: 90vh;
+    background: url('https://via.placeholder.com/1600x900') center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .hero .overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+  }
+  
+  .hero-content {
+    position: relative;
+    color: white;
+    text-align: center;
+    max-width: 800px;
+  }
+  
+  .hero h1 {
+    font-size: 40px;
+  }
+  
+  .hero p {
+    margin: 10px 0 20px;
+  }
+  
+  /* SEARCH BOX */
+  .search-box {
+    display: flex;
+    gap: 10px;
+    background: rgba(255,255,255,0.1);
+    padding: 15px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+  }
+  
+  .search-box input,
+  .search-box select {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  .search-box button {
+    background: #C9A96E;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* PROPERTIES */
+  .properties {
+    padding: 50px;
+    text-align: center;
+  }
+  
+  .property-grid {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+    justify-content: center;
+  }
+  
+  .card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 300px;
+    transition: 0.3s;
+  }
+  
+  .card img {
+    width: 100%;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .card-content {
+    padding: 15px;
+    text-align: left;
+  }
+  
+  .badge {
+    background: #0B3C5D;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .badge.rent {
+    background: green;
+  }
+  
+  /* WHY */
+  .why {
+    background: #eef3f7;
+    padding: 50px;
+    text-align: center;
+  }
+  
+  .why-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+  }
+  
+  .why-item {
+    max-width: 250px;
+  }
+  
+  /* CTA */
+  .cta {
+    background: #0B3C5D;
+    color: white;
+    text-align: center;
+    padding: 50px;
+  }
+  
+  .cta-buttons button {
+    margin: 10px;
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .cta .outline {
+    background: transparent;
+    border: 1px solid white;
+    color: white;
+  }
+  
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 20px;
+    background: #111;
+    color: white;
+  }
+  /* ABOUT */
+.about {
+    padding: 50px;
+    text-align: center;
+  }
+  
+  .about-content {
+    max-width: 700px;
+    margin: auto;
+    margin-top: 20px;
+    line-height: 1.6;
+  }
+  
+  /* CONTACT */
+  .contact {
+    padding: 50px;
+    text-align: center;
+  }
+  
+  .contact-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+  }
+  
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+  }
+  
+  .contact-form input,
+  .contact-form textarea {
+    margin-bottom: 10px;
+    padding: 10px;
+  }
+  
+  .contact-form button {
+    background: #0B3C5D;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .contact-info {
+    max-width: 300px;
+    text-align: left;
+  }
+/* about page */
+  .about{
+    padding-left: 30px;
+
+
+
+  }
+
+  /* contact */
+
+ .contact {
+    padding-left: 30px;
+  }
