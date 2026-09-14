@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - Anyreals</title>
+
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <header class="navbar">
+
+    <div class="logo">
+      Anyreals
+    </div>
+  
+    <div class="menu-toggle" id="menuToggle">
+      ☰
+    </div>
+  
+    <nav id="navMenu">
+  
+      <a href="index.html">Home</a>
+  
+      <a href="properties.html">
+        Properties
+      </a>
+  
+      <a href="property-services.html">
+        Property Services
+      </a>
+  
+      <div id="navAuth"></div>
+  
+    </nav>
+  
+  </header>
+
+<section class="section admin-wrapper">
+
+  <h1>Admin Control Center</h1>
+
+  <!-- STATS -->
+  <div class="admin-stats">
+
+    <div class="stat-card">
+      <h3 id="totalUsers">0</h3>
+      <p>Total Users</p>
+    </div>
+
+    <div class="stat-card">
+      <h3 id="totalAgents">0</h3>
+      <p>Agents</p>
+    </div>
+
+    <div class="stat-card">
+      <h3 id="pendingAgents">0</h3>
+      <p>Pending Agents</p>
+    </div>
+
+  </div>
+
+  <hr style="margin:40px 0;">
+
+  <h2>Pending Agent Applications</h2>
+
+  <div id="pendingList" class="admin-grid"></div>
+
+</section>
+
+<hr style="margin:60px 0;">
+
+
+<h2> Pending Property Approvals </h2>
+
+<div
+  id="pendingProperties"
+  class="admin-properties-grid"
+></div>
+<br>
+<hr style="margin:60px 0;">
+<h2>Add Property</h2>
+
+<form id="propertyForm" class="admin-form">
+
+  <input
+    type="text"
+    id="title"
+    placeholder="Property Title"
+    required
+  >
+
+  <input
+    type="number"
+    id="price"
+    placeholder="Price"
+    required
+  >
+
+  <input
+    type="text"
+    id="location"
+    placeholder="Location"
+    required
+  >
+
+  <input
+    type="text"
+    id="address"
+    placeholder="Address"
+  >
+
+  <select id="type">
+
+    <option value="House">House</option>
+    <option value="Apartment">Apartment</option>
+    <option value="Land">Land</option>
+
+  </select>
+
+  <input
+    type="file"
+    id="mainImage"
+    placeholder="Main Image URL"
+    required
+  >
+
+  <input
+  type="file"
+  id="galleryImages"
+  multiple
+    placeholder="Paste gallery image URLs separated by commas"
+  >
+
+  <textarea
+    id="shortDescription"
+    placeholder="Short Description"
+  ></textarea>
+
+  <textarea
+    id="fullDescription"
+    placeholder="Full Description"
+  ></textarea>
+
+  <label>
+    <input type="checkbox" id="featured">
+    Featured Listing
+  </label>
+
+  <button type="submit">
+    Publish Property
+  </button>
+
+</form>
+
+<hr style="margin:60px 0;">
+
+<h2>Homepage Promotions</h2>
+
+<div class="admin-stats">
+
+  <div class="stat-card">
+    <h3 id="heroCount">0</h3>
+    <p>Hero Banners</p>
+  </div>
+
+  <div class="stat-card">
+    <h3 id="featuredCount">0</h3>
+    <p>Gold Featured Listings</p>
+  </div>
+
+  <div class="stat-card">
+    <h3 id="luxuryCount">0</h3>
+    <p>Luxury Collection</p>
+  </div>
+
+</div>
+
+<h2>Manage Properties</h2>
+
+
+
+<input
+  type="text"
+  id="propertySearch"
+  placeholder="Search properties..."
+  class="admin-search"
+/>
+
+<div
+  id="adminProperties"
+  class="admin-properties-grid"
+></div>
+
+<!-- EDIT MODAL -->
+
+<div
+  id="editModal"
+  class="modal"
+>
+
+ 
+
+    <div class="modal-content">
+
+      <span
+        class="close"
+        onclick="closeEditModal()"
+      >
+        ×
+      </span>
+    
+      <h2>Edit Property</h2>
+    
+      <input
+        type="text"
+        id="editTitle"
+        placeholder="Title"
+      >
+    
+      <input
+        type="number"
+        id="editPrice"
+        placeholder="Price"
+      >
+    
+      <input
+        type="text"
+        id="editLocation"
+        placeholder="Location"
+      >
+    
+      <textarea
+        id="editDescription"
+        placeholder="Description"
+      ></textarea>
+    
+      <!-- MAIN IMAGE -->
+    
+      <label>Main Image</label>
+    
+      <img
+        id="editMainPreview"
+        class="edit-preview"
+      >
+    
+      <input
+        type="file"
+        id="editMainImage"
+      >
+    
+      <!-- GALLERY -->
+    
+      <label>Gallery Images</label>
+    
+      <div
+        id="editGalleryPreview"
+        class="gallery-preview"
+      ></div>
+    
+      <input
+        type="file"
+        id="editGalleryImages"
+        multiple
+      >
+    
+      <label>
+        <input
+          type="checkbox"
+          id="editFeatured"
+        >
+        Featured
+      </label>
+    
+      <button
+        onclick="savePropertyChanges()"
+      >
+        Save Changes
+      </button>
+      
+    
+    </div>
+
+    <script>
+
+      const menuToggle =
+        document.getElementById("menuToggle");
+      
+      const navMenu =
+        document.getElementById("navMenu");
+      
+      menuToggle.addEventListener(
+        "click",
+        () => {
+          navMenu.classList.toggle("active");
+        }
+      );
+      
+      </script>
+
+
+
+<script type="module" src="admin.js"></script>
+
+</body>
+</html>

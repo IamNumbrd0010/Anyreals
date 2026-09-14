@@ -1,0 +1,485 @@
+/* =========================
+   ANYREALS PROPERTY PAGE
+   LUXURY LISTING EXPERIENCE
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Inter",sans-serif;
+  }
+  
+  body{
+    background:#f7f9fc;
+    color:#1e293b;
+  }
+  
+  /* =========================
+     NAVBAR
+  ========================= */
+  
+  /* =========================
+   ANYREALS UNIVERSAL NAVBAR
+========================= */
+
+.navbar {
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid #e5e7eb;
+  
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  
+    padding: 16px 5%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  .logo {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #2563eb;
+    letter-spacing: -0.5px;
+  }
+  
+  /* DESKTOP NAV */
+  
+  #navMenu {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  
+  #navMenu a {
+    text-decoration: none;
+    color: #475569;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: .25s;
+    position: relative;
+  }
+  
+  #navMenu a:hover {
+    color: #2563eb;
+  }
+  
+  /* Underline animation */
+  
+  #navMenu a::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+  
+    width: 0;
+    height: 2px;
+  
+    background: #2563eb;
+    transition: .25s;
+  }
+  
+  #navMenu a:hover::after {
+    width: 100%;
+  }
+  
+  /* Login/Profile buttons area */
+  
+  #navAuth {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  /* MOBILE BUTTON */
+  
+  .menu-toggle {
+    display: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #0f172a;
+    user-select: none;
+  }
+  
+  /* =========================
+     MOBILE NAV
+  ========================= */
+  
+  @media (max-width: 768px) {
+  
+    .menu-toggle {
+      display: block;
+    }
+  
+    #navMenu {
+      position: absolute;
+  
+      top: 100%;
+      right: 20px;
+  
+      width: 280px;
+  
+      background: white;
+      border-radius: 16px;
+  
+      border: 1px solid #e5e7eb;
+  
+      box-shadow:
+        0 20px 40px rgba(0,0,0,.08);
+  
+      display: none;
+      flex-direction: column;
+  
+      padding: 20px;
+      gap: 18px;
+    }
+  
+    #navMenu.active {
+      display: flex;
+    }
+  
+    #navMenu a {
+      width: 100%;
+      padding: 10px 0;
+    }
+  
+    #navMenu a::after {
+      display: none;
+    }
+  
+    #navAuth {
+      width: 100%;
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+  
+  
+  /* =========================
+     PAGE WRAPPER
+  ========================= */
+  
+  .property-detail{
+    max-width:1400px;
+    margin:auto;
+    padding:40px 24px;
+  }
+  
+  /* =========================
+     TOP SECTION
+  ========================= */
+  
+  .detail-top{
+    display:grid;
+    grid-template-columns:1.3fr .8fr;
+    gap:40px;
+    align-items:start;
+  }
+  
+  /* =========================
+     MAIN GALLERY
+  ========================= */
+  
+  .gallery{
+    background:#fff;
+    border-radius:24px;
+    overflow:hidden;
+    box-shadow:0 15px 40px rgba(15,23,42,.06);
+  }
+  
+  #mainImage{
+    width:100%;
+    height:600px;
+    object-fit:cover;
+    display:block;
+  }
+  
+  .thumbnails{
+    padding:15px;
+    display:flex;
+    gap:12px;
+    overflow-x:auto;
+  }
+  
+  .thumbnails img{
+    width:110px;
+    height:80px;
+    border-radius:12px;
+    object-fit:cover;
+    cursor:pointer;
+    border:3px solid transparent;
+    transition:.25s;
+  }
+  
+  .thumbnails img:hover{
+    border-color:#2563eb;
+    transform:translateY(-2px);
+  }
+  
+  /* =========================
+     INFO PANEL
+  ========================= */
+  
+  .detail-info{
+    background:#fff;
+    border-radius:24px;
+    padding:30px;
+    position:sticky;
+    top:100px;
+    box-shadow:0 15px 40px rgba(15,23,42,.06);
+  }
+  
+  #propertyTitle{
+    font-size:34px;
+    font-weight:700;
+    line-height:1.2;
+    margin-bottom:12px;
+    color:#0f172a;
+  }
+  
+  #propertyPrice{
+    color:#2563eb;
+    font-size:32px;
+    margin-bottom:15px;
+  }
+  
+  #propertyLocation{
+    color:#64748b;
+    margin-bottom:30px;
+    font-size:15px;
+  }
+  
+  /* =========================
+     BUTTONS
+  ========================= */
+  
+  .favorite-btn{
+    width:100%;
+    border:none;
+    background:#2563eb;
+    color:white;
+    padding:16px;
+    border-radius:14px;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.25s;
+  }
+  
+  .favorite-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(37,99,235,.25);
+  }
+  
+  /* =========================
+     AGENT BOX
+  ========================= */
+  
+  .agent-contact-box{
+    margin-top:24px;
+    border-top:1px solid #e2e8f0;
+    padding-top:24px;
+  }
+  
+  .agent-contact-box h3{
+    margin-bottom:16px;
+    color:#0f172a;
+  }
+  
+  .profile-btn{
+    display:block;
+    text-align:center;
+    text-decoration:none;
+    background:#f1f5f9;
+    color:#0f172a;
+    padding:14px;
+    border-radius:14px;
+    font-weight:600;
+    transition:.25s;
+  }
+  
+  .profile-btn:hover{
+    background:#e2e8f0;
+  }
+  
+  /* =========================
+     DESCRIPTION
+  ========================= */
+  
+  .description{
+    margin-top:40px;
+    background:#fff;
+    padding:30px;
+    border-radius:24px;
+    box-shadow:0 15px 40px rgba(15,23,42,.05);
+  }
+  
+  .description h3{
+    margin-bottom:20px;
+    font-size:24px;
+    color:#0f172a;
+  }
+  
+  #propertyDescription{
+    color:#475569;
+    line-height:1.9;
+    font-size:15px;
+  }
+  
+  /* =========================
+     SIMILAR
+  ========================= */
+  
+  .similar{
+    margin-top:50px;
+  }
+  
+  .similar h3{
+    margin-bottom:20px;
+    font-size:24px;
+  }
+  
+  /* =========================
+     PROPERTY GRID
+  ========================= */
+  
+  .property-grid{
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(300px,1fr));
+    gap:24px;
+  }
+  
+  /* =========================
+     PROPERTY CARD
+  ========================= */
+  
+  .property-card{
+    background:#fff;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(15,23,42,.05);
+    transition:.3s;
+  }
+  
+  .property-card:hover{
+    transform:translateY(-6px);
+  }
+  
+  .property-card img{
+    width:100%;
+    height:240px;
+    object-fit:cover;
+  }
+  
+  .property-card-content{
+    padding:18px;
+  }
+  
+  .property-card-content h3{
+    font-size:18px;
+    margin-bottom:10px;
+  }
+  
+  .property-card-content p{
+    color:#64748b;
+  }
+  
+  /* =========================
+     PREMIUM BADGE
+  ========================= */
+  
+  .featured-badge{
+    position:absolute;
+    top:14px;
+    left:14px;
+    background:linear-gradient(
+    135deg,
+    #f59e0b,
+    #fbbf24
+    );
+    color:white;
+    padding:8px 12px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:700;
+  }
+  
+  /* =========================
+     IMAGE POLISH
+  ========================= */
+  
+  .gallery,
+  .property-card{
+    overflow:hidden;
+  }
+  
+  .gallery img,
+  .property-card img{
+    transition:.4s;
+  }
+  
+  .gallery:hover #mainImage{
+    transform:scale(1.03);
+  }
+  
+  .property-card:hover img{
+    transform:scale(1.05);
+  }
+  
+  /* =========================
+     MOBILE
+  ========================= */
+  
+  @media(max-width:992px){
+  
+    .detail-top{
+      grid-template-columns:1fr;
+    }
+  
+    .detail-info{
+      position:relative;
+      top:0;
+    }
+  
+    #mainImage{
+      height:420px;
+    }
+  
+  }
+  
+  @media(max-width:768px){
+  
+    .property-detail{
+      padding:20px 15px;
+    }
+  
+    #propertyTitle{
+      font-size:26px;
+    }
+  
+    #propertyPrice{
+      font-size:24px;
+    }
+  
+    #mainImage{
+      height:300px;
+    }
+  
+    .detail-info{
+      padding:22px;
+    }
+  
+    .description{
+      padding:22px;
+    }
+  
+    .thumbnails img{
+      width:90px;
+      height:65px;
+    }
+  
+  }
+  

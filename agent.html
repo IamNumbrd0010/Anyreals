@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Agent Profile</title>
+
+    <link rel="stylesheet" href="agent.css" />
+  </head>
+  <body>
+    
+    <header class="navbar">
+
+      <div class="logo">
+        Anyreals
+      </div>
+    
+      <div class="menu-toggle" id="menuToggle">
+        ☰
+      </div>
+    
+      <nav id="navMenu">
+    
+        <a href="index.html">Home</a>
+    
+        <a href="properties.html">
+          Properties
+        </a>
+    
+        <a href="property-services.html">
+          Property Services
+        </a>
+    
+        <div id="navAuth"></div>
+    
+      </nav>
+    
+    </header>
+
+    <!-- HERO -->
+
+    <section class="agent-public-hero">
+      <div class="agent-public-card">
+        <div class="agent-public-avatar" id="agentAvatar">A</div>
+
+        <div class="agent-public-info">
+          <h1 id="agentName">Agent Name</h1>
+
+          <p id="agentEmail">Email</p>
+
+          <p id="agentPhone">Phone</p>
+
+          <span class="verified-badge"> ✔ Verified Agent </span>
+
+          <p class="agent-bio" id="agentBio">No bio yet</p>
+
+          <div class="agent-socials">
+            <a id="agentWhatsapp" target="_blank"> WhatsApp </a>
+
+            <a id="agentInstagram" target="_blank"> Instagram </a>
+
+            <a id="agentFacebook" target="_blank"> Facebook </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS. -->
+
+    <section class="dashboard-stats">
+      <div class="dashboard-card">
+        <h2 id="agentListings">0</h2>
+
+        <p>Total Listings</p>
+      </div>
+
+      <div class="dashboard-card">
+        <h2 id="agentViews">0</h2>
+
+        <p>Total Views</p>
+      </div>
+
+      <div class="dashboard-card">
+        <h2 id="agentFavorites">0</h2>
+
+        <p>Total Favorites</p>
+      </div>
+    </section>
+
+    <section class="dashboard-stats">
+      <div class="dashboard-card">
+        <h2 id="agentTotalListings">0</h2>
+
+        <p>Total Listings</p>
+      </div>
+
+      <div class="dashboard-card">
+        <h2 id="agentSoldListings">0</h2>
+
+        <p>Sold</p>
+      </div>
+
+      <div class="dashboard-card">
+        <h2 id="agentRentedListings">0</h2>
+
+        <p>Rented</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Reviews</h2>
+
+      <div id="reviewFormContainer">
+        <textarea id="reviewText" placeholder="Leave a review..."></textarea>
+
+        <select id="reviewRating">
+          <option value="5">⭐⭐⭐⭐⭐</option>
+
+          <option value="4">⭐⭐⭐⭐</option>
+
+          <option value="3">⭐⭐⭐</option>
+
+          <option value="2">⭐⭐</option>
+
+          <option value="1">⭐</option>
+        </select>
+
+        <button onclick="submitReview()">Submit Review</button>
+      </div>
+
+      <div id="reviewsContainer" class="reviews-grid"></div>
+    </section>
+
+    <!-- PROPERTIES -->
+
+    <section class="section">
+      <h2>Agent Listings</h2>
+
+      <div class="property-grid" id="agentProperties"></div>
+    </section>
+    <script>
+
+      const menuToggle =
+        document.getElementById("menuToggle");
+      
+      const navMenu =
+        document.getElementById("navMenu");
+      
+      menuToggle.addEventListener(
+        "click",
+        () => {
+          navMenu.classList.toggle("active");
+        }
+      );
+      
+      </script>
+
+    <script type="module" src="agent.js"></script>
+  </body>
+</html>

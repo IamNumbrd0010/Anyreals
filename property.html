@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Property - Anyreals</title>
+  <link rel="stylesheet" href="property.css">
+</head>
+<body>
+
+  <header class="navbar">
+
+    <div class="logo">
+      Anyreals
+    </div>
+  
+    <div class="menu-toggle" id="menuToggle">
+      ☰
+    </div>
+  
+    <nav id="navMenu">
+  
+      <a href="index.html">Home</a>
+  
+      <a href="properties.html">
+        Properties
+      </a>
+  
+      <a href="property-services.html">
+        Property Services
+      </a>
+  
+      <div id="navAuth"></div>
+  
+    </nav>
+  
+  </header>
+<section class="property-detail">
+
+  <div class="detail-top">
+
+    <!-- LEFT -->
+    <div class="gallery">
+
+      <img id="mainImage" src="">
+
+      <div
+        class="thumbnails"
+        id="thumbnails"
+      ></div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="detail-info">
+
+      <h1 id="propertyTitle"></h1>
+
+      <h2 id="propertyPrice"></h2>
+
+      <p id="propertyLocation"></p>
+
+      <!-- <button
+        class="whatsapp"
+        onclick="openModal()"
+      >
+        Request Details
+      </button> -->
+
+      <button
+  class="favorite-btn"
+  id="favoriteBtn"
+>
+  ♡ Save Property
+</button>
+
+<div class="agent-contact-box">
+<br>
+  <h3>Contact Agent</h3>
+
+  <!-- <button id="callAgentBtn">
+    📞 Call Agent
+  </button>
+
+  <a
+    id="whatsappAgentBtn"
+    target="_blank"
+  >
+    <button>💬 WhatsApp</button> 
+  </a> -->
+
+  <a href="agent.html" class="profile-btn">
+    👤 View Profile
+  </a>
+
+</div>
+
+    </div>
+
+  </div>
+
+  <!-- DESCRIPTION -->
+
+  <div class="description">
+
+    <h3>Description</h3>
+
+    <p id="propertyDescription"></p>
+
+  </div>
+
+  <!-- SIMILAR -->
+
+  <div class="similar">
+
+    <h3>Similar Properties</h3>
+
+    <div
+      class="property-grid"
+      id="similarGrid"
+    ></div>
+
+  </div>
+
+</section>
+
+
+
+<!-- REQUEST DETAILS MODAL 
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">×</span>
+
+    <h3>Request Details</h3>
+
+    <input type="text" placeholder="Your Name">
+    <input type="text" placeholder="Phone Number">
+    <input type="email" placeholder="Email">
+    <textarea placeholder="Message"></textarea>
+
+    <button>Submit</button>
+  </div>
+</div>-->
+
+<script>
+
+  const menuToggle =
+    document.getElementById("menuToggle");
+  
+  const navMenu =
+    document.getElementById("navMenu");
+  
+  menuToggle.addEventListener(
+    "click",
+    () => {
+      navMenu.classList.toggle("active");
+    }
+  );
+  
+  </script>
+
+<script type="module" src="property.js"></script>
+
+<script>
+  function openModal() {
+    document.getElementById("modal").style.display = "flex";
+  }
+  
+  function closeModal() {
+    document.getElementById("modal").style.display = "none";
+  }
+  </script>
+</body>
+</html>

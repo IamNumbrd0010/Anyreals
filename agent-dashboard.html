@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>Agent Dashboard</title>
+
+  <link rel="stylesheet" href="agent-dashboard.css" />
+</head>
+<body>
+
+  <header class="navbar">
+
+    <div class="logo">
+      Anyreals
+    </div>
+  
+    <div class="menu-toggle" id="menuToggle">
+      ☰
+    </div>
+  
+    <nav id="navMenu">
+  
+      <a href="index.html">Home</a>
+  
+      <a href="properties.html">
+        Properties
+      </a>
+  
+      <a href="property-services.html">
+        Property Services
+      </a>
+  
+      <div id="navAuth"></div>
+  
+    </nav>
+  
+  </header>
+
+<section class="dashboard-hero">
+
+  <div class="agent-banner">
+
+    <div class="agent-avatar" id="agentAvatar">
+      A
+    </div>
+
+    <div>
+
+      <h1 id="agentBusinessName">
+        Agent Name
+      </h1>
+
+      <p id="agentEmail"></p>
+
+      <span class="verified-badge">
+        ✔ Verified Agent
+      </span>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- STATS -->
+<section class="section">
+<div class="dashboard-stats">
+  
+    
+
+  <div class="dashboard-card">
+
+    <h2 id="totalListings">0</h2>
+
+    <p>Total Listings</p>
+
+  </div>
+
+  <div class="dashboard-card">
+
+    <h2 id="featuredListings">0</h2>
+
+    <p>Featured Listings</p>
+
+  </div>
+
+  <div class="dashboard-card">
+
+    <h2 id="totalViews">0</h2>
+
+    <p>Total Views</p>
+
+  </div>
+
+  <div class="dashboard-card">
+
+    <h2 id="totalFavorites">0</h2>
+
+    <p>Total Favorites</p>
+
+  </div>
+
+  <div class="dashboard-card">
+
+    <h2 id="staffCount">
+      0
+    </h2>
+  
+    <p>
+      Staff Members
+    </p>
+  
+  </div>
+
+</section>
+
+<section class="section">
+
+  <h2>Edit Public Profile</h2>
+
+  <div class="profile-edit-box">
+
+    <input
+      type="text"
+      id="agentPhoneInput"
+      placeholder="Phone Number"
+    >
+
+    <input
+      type="text"
+      id="agentWhatsappInput"
+      placeholder="WhatsApp Number"
+    >
+
+    <input
+      type="text"
+      id="agentInstagramInput"
+      placeholder="Instagram Link"
+    >
+
+    <input
+      type="text"
+      id="agentFacebookInput"
+      placeholder="Facebook Link"
+    >
+
+    <textarea
+      id="agentBioInput"
+      placeholder="Write a short bio..."
+    ></textarea>
+
+    <button onclick="saveAgentProfile()">
+      Save Profile
+    </button>
+
+  </div>
+
+</section>
+
+<section class="section">
+
+  <h2>
+    Staff Members
+  </h2>
+
+  <div class="staff-add-box">
+
+    <input
+      type="email"
+      id="staffEmail"
+      placeholder="Staff Email"
+    >
+
+    <select id="staffRole">
+
+      <option value="editor">
+        Editor
+      </option>
+
+      <option value="manager">
+        Manager
+      </option>
+
+    </select>
+
+    <button onclick="addStaff()">
+      Add Staff
+    </button>
+
+  </div>
+
+  <div
+    id="staffContainer"
+    class="staff-grid"
+  ></div>
+
+</section>
+
+<!-- ACTIONS -->
+
+<section class="dashboard-actions">
+
+  <button onclick="openUploadModal()">
+    + Add Property
+  </button>
+
+</section>
+
+<!-- AGENT PROPERTIES -->
+
+<section class="section">
+
+  <h2>Your Listings</h2>
+
+  <div
+    class="admin-properties-grid"
+    id="agentProperties"
+  ></div>
+
+</section>
+
+<!-- UPLOAD PROPERTY MODAL -->
+
+<div
+  class="modal"
+  id="uploadModal"
+>
+
+  <div class="modal-content">
+
+    <span
+      class="close"
+      onclick="closeUploadModal()"
+    >
+      ×
+    </span>
+
+    <h2>Add Property</h2>
+
+    <input
+      type="text"
+      id="propertyTitle"
+      placeholder="Property Title"
+    >
+
+    <input
+      type="number"
+      id="propertyPrice"
+      placeholder="Price"
+    >
+
+    <input
+      type="text"
+      id="propertyLocation"
+      placeholder="Location"
+    >
+
+    <input
+      type="text"
+      id="propertyAddress"
+      placeholder="Address"
+    >
+
+    <select id="propertyType">
+
+      <option value="House">
+        House
+      </option>
+
+      <option value="Apartment">
+        Apartment
+      </option>
+
+      <option value="Land">
+        Land
+      </option>
+
+    </select>
+
+    <label>Main Image</label>
+
+    <input
+      type="file"
+      id="propertyMainImage"
+    >
+
+    <label>Gallery Images</label>
+
+    <input
+      type="file"
+      id="propertyGallery"
+      multiple
+    >
+
+    <textarea
+      id="propertyShortDescription"
+      placeholder="Short Description"
+    ></textarea>
+
+    <textarea
+      id="propertyFullDescription"
+      placeholder="Full Description"
+    ></textarea>
+
+    <button
+      onclick="submitProperty()"
+    >
+      Submit Property
+    </button>
+
+  </div>
+
+</div>
+
+<!-- EDIT MODAL -->
+
+<div
+  class="modal"
+  id="editModal"
+>
+
+  <div class="modal-content">
+
+    <span
+      class="close"
+      onclick="closeEditModal()"
+    >
+      ×
+    </span>
+
+    <h2>Edit Property</h2>
+
+    <input
+      type="text"
+      id="editTitle"
+      placeholder="Title"
+    >
+
+    <input
+      type="number"
+      id="editPrice"
+      placeholder="Price"
+    >
+
+    <input
+      type="text"
+      id="editLocation"
+      placeholder="Location"
+    >
+
+    <textarea
+      id="editDescription"
+      placeholder="Description"
+    ></textarea>
+
+    <label>
+      Replace Main Image
+    </label>
+
+    <input
+      type="file"
+      id="editMainImage"
+    >
+
+    <img
+      id="editMainPreview"
+      class="edit-main-preview"
+    >
+
+    <label>
+      Add Gallery Images
+    </label>
+
+    <input
+      type="file"
+      id="editGalleryImages"
+      multiple
+    >
+
+    <div
+      id="editGalleryPreview"
+      class="edit-gallery-preview"
+    ></div>
+
+    <button
+      onclick="savePropertyChanges()"
+    >
+      Save Changes
+    </button>
+
+  </div>
+
+</div>
+
+<script>
+
+  const menuToggle =
+    document.getElementById("menuToggle");
+  
+  const navMenu =
+    document.getElementById("navMenu");
+  
+  menuToggle.addEventListener(
+    "click",
+    () => {
+      navMenu.classList.toggle("active");
+    }
+  );
+  
+  </script>
+
+<script type="module" src="agent-dashboard.js"></script>
+
+</body>
+</html>

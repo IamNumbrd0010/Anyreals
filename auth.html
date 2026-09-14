@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome - Anyreals</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="navbar">
+
+    <div class="logo">
+      Anyreals
+    </div>
+  
+    <div class="menu-toggle" id="menuToggle">
+      ☰
+    </div>
+  
+    <nav id="navMenu">
+  
+      <a href="index.html">Home</a>
+  
+      <a href="properties.html">
+        Properties
+      </a>
+  
+      <a href="property-services.html">
+        Property Services
+      </a>
+  
+      <div id="navAuth"></div>
+  
+    </nav>
+  
+  </header>
+
+<section class="section">
+  <h2 style="text-align:center;">How would you like to continue?</h2> <br><br><br><br>
+
+  <div class="auth-grid">
+
+    <!-- BUYER -->
+    <div class="auth-card" onclick="goTo('buyer-login.html')">
+      <img src="https://cdn-icons-png.flaticon.com/512/1946/1946488.png">
+      <h3>Buyer</h3>
+      <p>Browse and find your next property</p>
+    </div>
+
+    <!-- AGENT -->
+    <div class="auth-card" onclick="goTo('agent-login.html')">
+      <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+      <h3>Agent</h3>
+      <p>List properties and manage clients</p>
+    </div>
+
+  </div>
+</section>
+
+<script>
+function goTo(page) {
+  window.location.href = page;
+}
+</script>
+<script>
+
+  const menuToggle =
+    document.getElementById("menuToggle");
+  
+  const navMenu =
+    document.getElementById("navMenu");
+  
+  menuToggle.addEventListener(
+    "click",
+    () => {
+      navMenu.classList.toggle("active");
+    }
+  );
+  
+  </script>
+
+</body>
+</html>

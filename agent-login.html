@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  
+  <header class="navbar">
+
+    <div class="logo">
+      Anyreals
+    </div>
+  
+    <div class="menu-toggle" id="menuToggle">
+      ☰
+    </div>
+  
+    <nav id="navMenu">
+  
+      <a href="index.html">Home</a>
+  
+      <a href="properties.html">
+        Properties
+      </a>
+  
+      <a href="property-services.html">
+        Property Services
+      </a>
+  
+      <div id="navAuth"></div>
+  
+    </nav>
+  
+  </header>
+
+<!-- agent-login.html -->
+<section class="section">
+    <h2>Agent Login</h2>
+  
+    <form id="agentLoginForm" class="service-form">
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="password" placeholder="Password" required>
+      
+        <button type="submit">Login</button>
+      </form>
+      
+      <script type="module" src="agent-login.js"></script>
+  
+    <p>
+      Not registered yet?
+      <a href="agent-signup.html">Apply as Agent</a>
+    </p>
+  </section>
+  <script>
+
+    const menuToggle =
+      document.getElementById("menuToggle");
+    
+    const navMenu =
+      document.getElementById("navMenu");
+    
+    menuToggle.addEventListener(
+      "click",
+      () => {
+        navMenu.classList.toggle("active");
+      }
+    );
+    
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile</title>
+  <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+  <header class="navbar">
+
+    <div class="logo">
+      Anyreals
+    </div>
+  
+    <div class="menu-toggle" id="menuToggle">
+      ☰
+    </div>
+  
+    <nav id="navMenu">
+  
+      <a href="index.html">Home</a>
+  
+      <a href="properties.html">
+        Properties
+      </a>
+  
+      <a href="property-services.html">
+        Property Services
+      </a>
+  
+      <div id="navAuth"></div>
+  
+    </nav>
+  
+  </header>
+
+<section class="section">
+
+  <h2>Your Profile</h2>
+
+  <div id="profileInfo"></div>
+
+  <h3>Favourites</h3>
+  <div id="favoritesList"></div>
+
+  <button onclick="toggleEdit()">Edit Profile</button>
+
+  <div id="editSection" style="display:none;">
+    <input type="text" id="editName" placeholder="New Name">
+    <button onclick="saveChanges()">Save</button>
+  </div>
+
+  <hr style="margin: 30px 0;">
+
+<h3>Become an Agent</h3>
+
+<p>
+  Want to list properties and manage clients?
+</p>
+
+<button id="becomeAgentBtn">
+  Apply as Agent
+</button>
+
+<div id="agentApplication" style="display:none; margin-top:20px;">
+
+  <input type="text" id="businessName" placeholder="Business Name">
+
+  <input type="text" id="phoneNumber" placeholder="Phone Number">
+
+  <input type="text" id="cacNumber" placeholder="CAC Registration Number">
+
+  <button onclick="submitAgentApplication()">
+    Submit Application
+  </button>
+
+</div>
+
+</section>
+
+<script>
+
+  const menuToggle =
+    document.getElementById("menuToggle");
+  
+  const navMenu =
+    document.getElementById("navMenu");
+  
+  menuToggle.addEventListener(
+    "click",
+    () => {
+      navMenu.classList.toggle("active");
+    }
+  );
+  
+  </script>
+
+<script type="module" src="profile.js"></script>
+</body>
+</html>

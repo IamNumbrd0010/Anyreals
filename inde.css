@@ -1,0 +1,562 @@
+/* =========================
+   ANYREALS HOMEPAGE
+========================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  background: #f8fafc;
+  color: #0f172a;
+  overflow-x: hidden;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+/* NAVBAR */
+/* =========================
+   ANYREALS UNIVERSAL NAVBAR
+========================= */
+
+.navbar {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid #e5e7eb;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 16px 5%;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #2563eb;
+  letter-spacing: -0.5px;
+}
+
+/* DESKTOP NAV */
+
+#navMenu {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+#navMenu a {
+  text-decoration: none;
+  color: #475569;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: 0.25s;
+  position: relative;
+}
+
+#navMenu a:hover {
+  color: #2563eb;
+}
+
+/* Underline animation */
+
+#navMenu a::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+
+  width: 0;
+  height: 2px;
+
+  background: #2563eb;
+  transition: 0.25s;
+}
+
+#navMenu a:hover::after {
+  width: 100%;
+}
+
+/* Login/Profile buttons area */
+
+#navAuth {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* MOBILE BUTTON */
+
+.menu-toggle {
+  display: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: #0f172a;
+  user-select: none;
+}
+
+/* =========================
+     MOBILE NAV
+  ========================= */
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  #navMenu {
+    position: absolute;
+
+    top: 100%;
+    right: 20px;
+
+    width: 280px;
+
+    background: white;
+    border-radius: 16px;
+
+    border: 1px solid #e5e7eb;
+
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+
+    display: none;
+    flex-direction: column;
+
+    padding: 20px;
+    gap: 18px;
+  }
+
+  #navMenu.active {
+    display: flex;
+  }
+
+  #navMenu a {
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  #navMenu a::after {
+    display: none;
+  }
+
+  #navAuth {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.btn {
+  background: #0b3c5d;
+  color: white;
+  padding: 8px 12px;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+  min-height: 85vh;
+
+  background: linear-gradient(rgba(15, 23, 42, 0.55), rgba(15, 23, 42, 0.55)),
+    url("https://images.unsplash.com/photo-1600585154526-990dced4db0d");
+
+  background-size: cover;
+  background-position: center;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  padding: 40px;
+}
+
+.hero-content {
+  max-width: 950px;
+}
+
+.hero h1 {
+  font-size: 4rem;
+  color: white;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  color: #e2e8f0;
+  font-size: 1.2rem;
+  margin-bottom: 35px;
+}
+
+/* =========================
+   SEARCH BOX
+========================= */
+
+.homepage-search {
+  background: white;
+
+  padding: 18px;
+
+  border-radius: 22px;
+
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+
+  gap: 12px;
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.homepage-search input,
+.homepage-search select {
+  height: 55px;
+
+  border: none;
+  background: #f8fafc;
+
+  border-radius: 14px;
+
+  padding: 0 15px;
+
+  font-size: 15px;
+}
+
+.homepage-search button {
+  border: none;
+  background: #2563eb;
+  color: white;
+
+  padding: 0 28px;
+
+  border-radius: 14px;
+
+  cursor: pointer;
+  font-weight: 600;
+
+  transition: 0.25s;
+}
+
+.homepage-search button:hover {
+  transform: translateY(-2px);
+}
+
+/* =========================
+   STATS
+========================= */
+
+.hero-stats {
+  max-width: 1200px;
+
+  margin: -50px auto 0;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 20px;
+
+  padding: 0 20px;
+
+  position: relative;
+  z-index: 10;
+}
+
+.hero-stats div {
+  background: white;
+
+  padding: 30px;
+
+  border-radius: 20px;
+
+  text-align: center;
+
+  box-shadow: 0 10px 40px rgba(15, 23, 42, 0.08);
+}
+
+.hero-stats h3 {
+  font-size: 2rem;
+  color: #2563eb;
+}
+
+.hero-stats span {
+  color: #64748b;
+}
+
+/* =========================
+   SECTIONS
+========================= */
+
+.section {
+  max-width: 1300px;
+  margin: auto;
+  padding: 80px 20px;
+}
+
+.section h2 {
+  text-align: center;
+  font-size: 2.3rem;
+  margin-bottom: 10px;
+}
+
+.section-subtitle {
+  text-align: center;
+  color: #64748b;
+  margin-bottom: 40px;
+}
+
+.light {
+  background: white;
+}
+
+/* =========================
+   PROPERTY GRID
+========================= */
+
+.property-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+
+  gap: 25px;
+}
+
+/* YOUR PROPERTY CARDS */
+
+.property-card {
+  background: white;
+
+  border-radius: 22px;
+
+  overflow: hidden;
+
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.07);
+
+  transition: 0.3s;
+}
+
+.property-card:hover {
+  transform: translateY(-8px);
+}
+
+.property-card img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+}
+
+.property-card-content {
+  padding: 20px;
+}
+
+/* =========================
+   WHY ANYREALS
+========================= */
+
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
+  gap: 20px;
+}
+
+.why-card {
+  background: white;
+
+  border-radius: 18px;
+
+  padding: 30px;
+
+  text-align: center;
+
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.05);
+}
+
+.why-card h3 {
+  margin-bottom: 10px;
+  color: #2563eb;
+}
+
+/* =========================
+   AGENTS
+========================= */
+
+.agent-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+
+  gap: 20px;
+}
+
+.agent-card {
+  background: white;
+
+  padding: 25px;
+
+  border-radius: 20px;
+
+  text-align: center;
+
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.05);
+}
+
+/* =========================
+   TESTIMONIALS
+========================= */
+
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+  gap: 20px;
+}
+
+.testimonial-card {
+  background: white;
+
+  padding: 30px;
+
+  border-radius: 20px;
+
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.05);
+}
+
+.testimonial-card h4 {
+  margin-top: 15px;
+  color: #2563eb;
+}
+
+/* =========================
+   SERVICES
+========================= */
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
+  gap: 20px;
+}
+
+.service-card {
+  background: white;
+
+  padding: 35px;
+
+  text-align: center;
+
+  border-radius: 18px;
+
+  font-weight: 600;
+
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.05);
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn,
+.cta button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  text-decoration: none;
+
+  background: #2563eb;
+  color: white;
+
+  border: none;
+
+  padding: 14px 28px;
+
+  border-radius: 14px;
+
+  cursor: pointer;
+
+  transition: 0.25s;
+}
+
+.btn:hover,
+.cta button:hover {
+  transform: translateY(-2px);
+}
+
+.center {
+  display: flex;
+  width: max-content;
+  margin: auto;
+}
+
+/* =========================
+   CTA
+========================= */
+
+.cta {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+
+  color: white;
+
+  text-align: center;
+
+  padding: 100px 20px;
+}
+
+.cta h2 {
+  font-size: 2.4rem;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+  background: #0f172a;
+  color: white;
+  text-align: center;
+  padding: 30px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: 75vh;
+  }
+
+  .hero h1 {
+    font-size: 2.3rem;
+  }
+
+  .homepage-search {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-stats {
+    grid-template-columns: 1fr;
+    margin-top: 20px;
+  }
+
+  .section {
+    padding: 60px 20px;
+  }
+
+  .section h2 {
+    font-size: 1.8rem;
+  }
+
+  .cta h2 {
+    font-size: 1.8rem;
+  }
+}
