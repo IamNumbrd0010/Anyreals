@@ -12,7 +12,9 @@ import {
   deleteDoc,
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-/* 🔥 ELEMENTS */
+/* =========================================================
+   ELEMENTS
+========================================================= */
 
 const pendingProperties = document.getElementById("pendingProperties");
 
@@ -24,19 +26,140 @@ const totalAgents = document.getElementById("totalAgents");
 
 const pendingAgents = document.getElementById("pendingAgents");
 
-const propertyForm = document.getElementById("propertyForm");
-
 const heroCount = document.getElementById("heroCount");
 
 const featuredCount = document.getElementById("featuredCount");
 
 const luxuryCount = document.getElementById("luxuryCount");
 
-/* 🔐 PROTECT ADMIN PAGE */
+const soldCount = document.getElementById("soldCount");
+
+const propertyForm = document.getElementById("propertyForm");
+
+const adminProperties = document.getElementById("adminProperties");
+
+const propertySearch = document.getElementById("propertySearch");
+
+const propertyStatusFilter = document.getElementById("propertyStatusFilter");
+
+const propertyTotal = document.getElementById("propertyTotal");
+
+let allProperties = [];
+
+let editingPropertyId = null;
+
+let editingGallery = [];
+
+let editingMainImage = "";
+
+/* =========================================================
+   MOBILE SIDEBAR
+========================================================= */
+
+const mobileMenuToggle = document.getElementById("mobileMenuToggle");
+
+const adminSidebar = document.getElementById("adminSidebar");
+
+const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+function toggleSidebar() {
+  adminSidebar?.classList.toggle("active");
+
+  sidebarOverlay?.classList.toggle("active");
+}
+
+mobileMenuToggle?.addEventListener("click", toggleSidebar);
+
+sidebarOverlay?.addEventListener("click", toggleSidebar);
+
+document.querySelectorAll(".sidebar-link").forEach((link) => {
+  link.addEventListener("click", () => {
+    if (window.innerWidth <= 800) {
+      adminSidebar?.classList.remove("active");
+      sidebarOverlay?.classList.remove("active");
+    }
+  });
+});
+
+/* =========================================================
+   HOMEPAGE PLACEMENT HELPER
+========================================================= */
+
+function getHomepagePlacements(property) {
+  if (Array.isArray(property.homepagePlacements)) {
+    return property.homepagePlacements;
+  }
+
+  /*
+    Compatibility with old properties
+    that still use homepagePlacement.
+  */
+
+  if (property.homepagePlacement && property.homepagePlacement !== "none") {
+    return [property.homepagePlacement];
+  }
+
+  return [];
+}
+
+/* =========================================================
+   STATUS LABEL
+========================================================= */
+
+function getStatusLabel(status) {
+  if (status === "sold") {
+    return "Sold";
+  }
+
+  if (status === "rented") {
+    return "Rented";
+  }
+
+  return "Available";
+}
+
+/* =========================================================
+   PLACEMENT LABEL
+========================================================= */
+
+function getPlacementLabels(property) {
+  const placements = getHomepagePlacements(property);
+
+  if (!placements.length) {
+    return "No Homepage Placement";
+  }
+
+  return placements
+    .map((placement) => {
+      if (placement === "hero") {
+        return "Diamond Hero";
+      }
+
+      if (placement === "featured") {
+        return "Featured";
+      }
+
+      if (placement === "luxury") {
+        return "Luxury";
+      }
+
+      if (placement === "sold-showcase") {
+        return "Sold Showcase";
+      }
+
+      return placement;
+    })
+    .join(" • ");
+}
+
+/* =========================================================
+   ADMIN AUTH
+========================================================= */
 
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     window.location.href = "auth.html";
+
     return;
   }
 
@@ -45,12 +168,11 @@ onAuthStateChanged(auth, async (user) => {
 
     if (!userDoc.exists()) {
       alert("User data not found");
+
       return;
     }
 
     const data = userDoc.data();
-
-    /* 🚫 BLOCK NON ADMINS */
 
     if (data.role !== "admin") {
       alert("Access denied");
@@ -60,9 +182,11 @@ onAuthStateChanged(auth, async (user) => {
       return;
     }
 
-    loadDashboard();
+    await loadDashboard();
 
-    loadPendingProperties();
+    await loadPendingProperties();
+
+    await loadProperties();
   } catch (error) {
     console.error(error);
 
@@ -70,13 +194,15 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-/* 📊 LOAD DASHBOARD */
+/* =========================================================
+   DASHBOARD
+========================================================= */
 
 async function loadDashboard() {
   try {
     const snapshot = await getDocs(collection(db, "users"));
 
-    let users = [];
+    const users = [];
 
     snapshot.forEach((docItem) => {
       users.push({
@@ -87,10 +213,12 @@ async function loadDashboard() {
 
     totalUsers.innerText = users.length;
 
-    totalAgents.innerText = users.filter((u) => u.role === "agent").length;
+    totalAgents.innerText = users.filter(
+      (user) => user.role === "agent"
+    ).length;
 
     pendingAgents.innerText = users.filter(
-      (u) => u.role === "pending-agent"
+      (user) => user.role === "pending-agent"
     ).length;
 
     renderPending(users);
@@ -101,15 +229,23 @@ async function loadDashboard() {
   }
 }
 
-/* 🧑‍⚖️ PENDING AGENTS */
+/* =========================================================
+   PENDING AGENTS
+========================================================= */
 
 function renderPending(users) {
-  const pending = users.filter((u) => u.role === "pending-agent");
+  const pending = users.filter((user) => user.role === "pending-agent");
 
   pendingList.innerHTML = "";
 
   if (!pending.length) {
-    pendingList.innerHTML = "<p>No pending applications</p>";
+    pendingList.innerHTML = `
+      <div class="empty-admin-state">
+        <span>✓</span>
+        <strong>No pending applications</strong>
+        <p>All agent applications have been reviewed.</p>
+      </div>
+    `;
 
     return;
   }
@@ -127,12 +263,12 @@ function renderPending(users) {
 
       <p>
         <strong>Name:</strong>
-        ${user.name}
+        ${user.name || "-"}
       </p>
 
       <p>
         <strong>Email:</strong>
-        ${user.email}
+        ${user.email || "-"}
       </p>
 
       <p>
@@ -158,13 +294,16 @@ function renderPending(users) {
       >
         Reject
       </button>
+
     `;
 
     pendingList.appendChild(card);
   });
 }
 
-/* ✅ APPROVE AGENT */
+/* =========================================================
+   APPROVE AGENT
+========================================================= */
 
 window.approveAgent = async (id) => {
   try {
@@ -175,7 +314,7 @@ window.approveAgent = async (id) => {
 
     alert("Agent approved");
 
-    location.reload();
+    await loadDashboard();
   } catch (error) {
     console.error(error);
 
@@ -183,7 +322,9 @@ window.approveAgent = async (id) => {
   }
 };
 
-/* ❌ REJECT AGENT */
+/* =========================================================
+   REJECT AGENT
+========================================================= */
 
 window.rejectAgent = async (id) => {
   try {
@@ -194,7 +335,7 @@ window.rejectAgent = async (id) => {
 
     alert("Application rejected");
 
-    location.reload();
+    await loadDashboard();
   } catch (error) {
     console.error(error);
 
@@ -202,13 +343,14 @@ window.rejectAgent = async (id) => {
   }
 };
 
-/* 🏠 ADD PROPERTY */
+/* =========================================================
+   ADD PROPERTY
+========================================================= */
 
-propertyForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
+propertyForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
 
   try {
-    /* MAIN IMAGE */
     const mainFile = document.getElementById("mainImage").files[0];
 
     let mainImage = "";
@@ -217,45 +359,56 @@ propertyForm.addEventListener("submit", async (e) => {
       mainImage = await convertToBase64(mainFile);
     }
 
-    /* GALLERY IMAGES */
     const galleryFiles = document.getElementById("galleryImages").files;
 
-    let gallery = [];
+    const gallery = [];
 
-    for (let file of galleryFiles) {
-      const base64 = await convertToBase64(file);
-
-      gallery.push(base64);
+    for (const file of galleryFiles) {
+      gallery.push(await convertToBase64(file));
     }
 
-    /* PROPERTY OBJECT */
+    /* =========================
+         GET MULTIPLE PLACEMENTS
+      ========================== */
+
+    const homepagePlacements = Array.from(
+      document.querySelectorAll('input[name="homepagePlacement"]:checked')
+    ).map((input) => input.value);
 
     const property = {
-      title: document.getElementById("title").value,
+      title: document.getElementById("title").value.trim(),
 
       price: Number(document.getElementById("price").value),
 
-      location: document.getElementById("location").value,
+      location: document.getElementById("location").value.trim(),
 
-      address: document.getElementById("address").value,
+      address: document.getElementById("address").value.trim(),
 
       type: document.getElementById("type").value,
 
       image: mainImage,
 
-      gallery: gallery,
+      gallery,
 
-      shortDescription: document.getElementById("shortDescription").value,
+      shortDescription: document
+        .getElementById("shortDescription")
+        .value.trim(),
 
-      fullDescription: document.getElementById("fullDescription").value,
+      fullDescription: document.getElementById("fullDescription").value.trim(),
 
-      featured: document.getElementById("featured").checked,
+      /*
+          Canonical homepage system
+        */
+
+      homepagePlacements,
+
+      /*
+          Legacy compatibility
+        */
+
+      featured: homepagePlacements.includes("featured"),
 
       verified: true,
-
-      featured: false,
-
-      homepagePlacement: "none",
 
       promotionPackage: "none",
 
@@ -263,7 +416,7 @@ propertyForm.addEventListener("submit", async (e) => {
 
       promotionPricePaid: 0,
 
-      status: "available",
+      status: document.getElementById("status").value,
 
       approvalStatus: "approved",
 
@@ -275,6 +428,8 @@ propertyForm.addEventListener("submit", async (e) => {
     alert("Property added successfully");
 
     propertyForm.reset();
+
+    await loadProperties();
   } catch (error) {
     console.error(error);
 
@@ -282,7 +437,9 @@ propertyForm.addEventListener("submit", async (e) => {
   }
 });
 
-/* 🔥 CONVERT IMAGE TO BASE64 */
+/* =========================================================
+   BASE64
+========================================================= */
 
 function convertToBase64(file) {
   return new Promise((resolve, reject) => {
@@ -296,52 +453,139 @@ function convertToBase64(file) {
   });
 }
 
-/* =========================
-   LOAD ADMIN PROPERTIES
-========================= */
-
-const adminProperties = document.getElementById("adminProperties");
-
-const propertySearch = document.getElementById("propertySearch");
-
-let allProperties = [];
+/* =========================================================
+   LOAD PROPERTIES
+========================================================= */
 
 async function loadProperties() {
-  const snapshot = await getDocs(collection(db, "properties"));
+  try {
+    const snapshot = await getDocs(collection(db, "properties"));
 
-  allProperties = [];
+    allProperties = [];
 
-  snapshot.forEach((docItem) => {
-    allProperties.push({
-      id: docItem.id,
-      ...docItem.data(),
+    snapshot.forEach((docItem) => {
+      allProperties.push({
+        id: docItem.id,
+
+        ...docItem.data(),
+      });
     });
-  });
 
-  renderProperties(allProperties);
+    renderProperties(getFilteredProperties());
 
-  heroCount.innerText = allProperties.filter(
-    (p) => p.homepagePlacement === "hero"
-  ).length;
-
-  featuredCount.innerText = allProperties.filter(
-    (p) => p.homepagePlacement === "featured"
-  ).length;
-
-  luxuryCount.innerText = allProperties.filter(
-    (p) => p.homepagePlacement === "luxury"
-  ).length;
+    updatePromotionStats();
+  } catch (error) {
+    console.error(error);
+  }
 }
 
-/* =========================
+/* =========================================================
+   FILTER
+========================================================= */
+
+function getFilteredProperties() {
+  const search = propertySearch?.value.trim().toLowerCase() || "";
+
+  const status = propertyStatusFilter?.value || "all";
+
+  return allProperties.filter((property) => {
+    const searchableText = `
+
+        ${property.title || ""}
+
+        ${property.location || ""}
+
+        ${property.type || ""}
+
+      `.toLowerCase();
+
+    const matchesSearch = searchableText.includes(search);
+
+    const matchesStatus =
+      status === "all" || (property.status || "available") === status;
+
+    return matchesSearch && matchesStatus;
+  });
+}
+
+/* =========================================================
+   SEARCH EVENTS
+========================================================= */
+
+propertySearch?.addEventListener("input", () => {
+  renderProperties(getFilteredProperties());
+});
+
+propertyStatusFilter?.addEventListener("change", () => {
+  renderProperties(getFilteredProperties());
+});
+
+/* =========================================================
+   PROMOTION COUNTS
+========================================================= */
+
+function updatePromotionStats() {
+  const heroProperties = allProperties.filter((property) =>
+    getHomepagePlacements(property).includes("hero")
+  );
+
+  const featuredProperties = allProperties.filter((property) =>
+    getHomepagePlacements(property).includes("featured")
+  );
+
+  const luxuryProperties = allProperties.filter((property) =>
+    getHomepagePlacements(property).includes("luxury")
+  );
+
+  const soldProperties = allProperties.filter((property) => {
+    const placements = getHomepagePlacements(property);
+
+    return (
+      placements.includes("sold-showcase") &&
+      (property.status === "sold" || property.status === "rented")
+    );
+  });
+
+  heroCount.innerText = heroProperties.length;
+
+  featuredCount.innerText = featuredProperties.length;
+
+  luxuryCount.innerText = luxuryProperties.length;
+
+  if (soldCount) {
+    soldCount.innerText = soldProperties.length;
+  }
+
+  if (propertyTotal) {
+    propertyTotal.innerText = allProperties.length;
+  }
+}
+
+/* =========================================================
    RENDER PROPERTIES
-========================= */
+========================================================= */
 
 function renderProperties(properties) {
   adminProperties.innerHTML = "";
 
   if (!properties.length) {
-    adminProperties.innerHTML = "<p>No properties found</p>";
+    adminProperties.innerHTML = `
+
+      <div class="empty-admin-state">
+
+        <span>⌕</span>
+
+        <strong>
+          No properties found
+        </strong>
+
+        <p>
+          Try changing your search or filter.
+        </p>
+
+      </div>
+
+    `;
 
     return;
   }
@@ -351,96 +595,82 @@ function renderProperties(properties) {
 
     card.className = "admin-property-card";
 
+    const placements = getHomepagePlacements(property);
+
+    const status = property.status || "available";
+
+    const statusLabel = getStatusLabel(status);
+
+    const statusClass =
+      status === "sold" ? "sold" : status === "rented" ? "rented" : "";
+
+    const featured = property.featured || placements.includes("featured");
+
     card.innerHTML = `
 
-      <img src="${property.image}">
+      <img
+        src="${property.image || ""}"
+        alt="${property.title || "Property"}"
+      >
+
 
       <div class="admin-property-content">
 
-        <h3>${property.title}</h3>
+        <h3>
+          ${property.title || "Untitled Property"}
+        </h3>
+
 
         <p>
-          ₦${property.price.toLocaleString()}
+          ₦${Number(property.price || 0).toLocaleString()}
         </p>
 
-        <p>${property.location}</p>
 
         <p>
-          ${property.featured ? "⭐ Featured" : "Regular"}
+          ${property.location || "Nigeria"}
         </p>
 
-        <p class="promotion-badge">
-  Homepage:
-  ${property.homepagePlacement || "none"}
-</p>
+
+        <div class="property-status-line">
+
+          <span
+            class="status-dot ${statusClass}"
+          ></span>
+
+          <span>
+            ${statusLabel}
+          </span>
+
+        </div>
+
+
+        <span class="promotion-badge">
+
+          ${getPlacementLabels(property)}
+
+        </span>
+
 
         <div class="admin-property-actions">
-        
-        <button
-    class="edit-btn"
-    onclick="editProperty('${property.id}')"
-  >
-    Edit
-  </button>
-  <select
-  onchange="
-    updateHomepagePlacement(
-      '${property.id}',
-      this.value
-    )
-  "
->
 
-  <option
-    value="none"
-    ${property.homepagePlacement === "none" ? "selected" : ""}
-  >
-    No Placement
-  </option>
-
-  <option
-    value="hero"
-    ${property.homepagePlacement === "hero" ? "selected" : ""}
-  >
-   Diamond Hero Banner
-  </option>
-
-  <option
-    value="featured"
-    ${property.homepagePlacement === "featured" ? "selected" : ""}
-  >
-    Featured Section
-  </option>
-
-  <option
-    value="luxury"
-    ${property.homepagePlacement === "luxury" ? "selected" : ""}
-  >
-    Luxury Collection
-  </option>
-
-  <option
-    value="newest"
-    ${property.homepagePlacement === "newest" ? "selected" : ""}
-  >
-    Newest Listings
-  </option>
-
-  <option
-    value="sold-showcase"
-    ${property.homepagePlacement === "sold-showcase" ? "selected" : ""}
-  >
-    Sold Showcase
-  </option>
-
-</select>
-        
-        <button
-            class="feature-btn"
-            onclick="toggleFeatured('${property.id}', ${property.featured})"
+          <button
+            class="edit-btn"
+            onclick="editProperty('${property.id}')"
           >
-            ${property.featured ? "Unfeature" : "Feature"}
+            Edit
           </button>
+
+
+          <button
+            class="feature-btn"
+            onclick="toggleFeatured(
+              '${property.id}',
+              ${featured}
+            )"
+          >
+            ${featured ? "Remove Featured" : "Feature"}
+          </button>
+
 
           <button
             class="delete-btn"
@@ -459,113 +689,75 @@ function renderProperties(properties) {
   });
 }
 
-/* =========================
-   DELETE PROPERTY
-========================= */
+/* =========================================================
+   DELETE
+========================================================= */
 
 window.deleteProperty = async (id) => {
-  const confirmDelete = confirm("Delete this property?");
-
-  if (!confirmDelete) return;
-
-  await deleteDoc(doc(db, "properties", id));
-
-  alert("Property deleted");
-
-  loadProperties();
-};
-
-/* =========================
-   FEATURE TOGGLE
-========================= */
-
-window.toggleFeatured = async (id, currentStatus) => {
-  await updateDoc(doc(db, "properties", id), {
-    featured: !currentStatus,
-  });
-
-  loadProperties();
-};
-
-/* =========================
-   APPROVE PROPERTY
-========================= */
-
-window.approveProperty = async (id) => {
-  try {
-    await updateDoc(doc(db, "properties", id), {
-      approvalStatus: "approved",
-
-      verified: true,
-    });
-
-    alert("Property approved");
-
-    loadPendingProperties();
-
-    loadProperties();
-  } catch (error) {
-    console.error(error);
-
-    alert("Error approving property");
+  if (!confirm("Delete this property permanently?")) {
+    return;
   }
-};
-
-/* =========================
-   REJECT PROPERTY
-========================= */
-
-window.rejectProperty = async (id) => {
-  const confirmReject = confirm("Reject property?");
-
-  if (!confirmReject) return;
 
   try {
     await deleteDoc(doc(db, "properties", id));
 
-    alert("Property rejected");
+    alert("Property deleted");
 
-    loadPendingProperties();
-
-    loadProperties();
+    await loadProperties();
   } catch (error) {
     console.error(error);
 
-    alert("Error rejecting property");
+    alert("Error deleting property");
   }
 };
 
-/* =========================
-   SEARCH
-========================= */
+/* =========================================================
+   FEATURE TOGGLE
+========================================================= */
 
-propertySearch.addEventListener("input", () => {
-  const value = propertySearch.value.toLowerCase();
+window.toggleFeatured = async (id, currentStatus) => {
+  try {
+    const property = allProperties.find((item) => item.id === id);
 
-  const filtered = allProperties.filter((property) =>
-    property.title.toLowerCase().includes(value)
-  );
+    if (!property) return;
 
-  renderProperties(filtered);
-});
+    let placements = getHomepagePlacements(property);
 
-/* INITIAL LOAD */
+    if (currentStatus) {
+      placements = placements.filter((item) => item !== "featured");
+    } else {
+      if (!placements.includes("featured")) {
+        placements.push("featured");
+      }
+    }
 
-loadProperties();
+    await updateDoc(doc(db, "properties", id), {
+      homepagePlacements: placements,
 
-/* =========================  
-   EDIT PROPERTY SYSTEM
-========================= */
+      featured: placements.includes("featured"),
+    });
 
-let editingPropertyId = null;
-let editingGallery = [];
-let editingMainImage = "";
+    await loadProperties();
+  } catch (error) {
+    console.error(error);
 
-/* OPEN EDIT MODAL */
+    alert("Error updating featured status");
+  }
+};
+
+/* =========================================================
+   EDIT PROPERTY
+========================================================= */
 
 window.editProperty = async (id) => {
   try {
     const propertyDoc = await getDoc(doc(db, "properties", id));
+
+    if (!propertyDoc.exists()) {
+      alert("Property not found");
+
+      return;
+    }
 
     const property = propertyDoc.data();
 
@@ -574,6 +766,8 @@ window.editProperty = async (id) => {
     editingGallery = property.gallery || [];
 
     editingMainImage = property.image || "";
+
+    const placements = getHomepagePlacements(property);
 
     document.getElementById("editTitle").value = property.title || "";
 
@@ -584,14 +778,26 @@ window.editProperty = async (id) => {
     document.getElementById("editDescription").value =
       property.fullDescription || "";
 
-    document.getElementById("editFeatured").checked =
-      property.featured || false;
+    document.getElementById("editStatus").value =
+      property.status || "available";
 
-    /* MAIN IMAGE */
+    /* PLACEMENTS */
+
+    document.getElementById("editPlacementHero").checked =
+      placements.includes("hero");
+
+    document.getElementById("editPlacementFeatured").checked =
+      placements.includes("featured");
+
+    document.getElementById("editPlacementLuxury").checked =
+      placements.includes("luxury");
+
+    document.getElementById("editPlacementSold").checked =
+      placements.includes("sold-showcase");
+
+    /* IMAGES */
 
     document.getElementById("editMainPreview").src = editingMainImage;
-
-    /* GALLERY */
 
     renderGalleryPreview();
 
@@ -603,38 +809,69 @@ window.editProperty = async (id) => {
   }
 };
 
-/* CLOSE MODAL */
+/* =========================================================
+   CLOSE MODAL
+========================================================= */
 
 window.closeEditModal = () => {
   document.getElementById("editModal").style.display = "none";
 };
 
-/* SAVE CHANGES */
+/* =========================================================
+   SAVE EDITED PROPERTY
+========================================================= */
+
 window.savePropertyChanges = async () => {
-  if (!editingPropertyId) return;
+  if (!editingPropertyId) {
+    return;
+  }
 
   try {
+    const placements = [];
+
+    if (document.getElementById("editPlacementHero").checked) {
+      placements.push("hero");
+    }
+
+    if (document.getElementById("editPlacementFeatured").checked) {
+      placements.push("featured");
+    }
+
+    if (document.getElementById("editPlacementLuxury").checked) {
+      placements.push("luxury");
+    }
+
+    if (document.getElementById("editPlacementSold").checked) {
+      placements.push("sold-showcase");
+    }
+
+    const status = document.getElementById("editStatus").value;
+
     await updateDoc(doc(db, "properties", editingPropertyId), {
-      title: document.getElementById("editTitle").value,
+      title: document.getElementById("editTitle").value.trim(),
 
       price: Number(document.getElementById("editPrice").value),
 
-      location: document.getElementById("editLocation").value,
+      location: document.getElementById("editLocation").value.trim(),
 
-      fullDescription: document.getElementById("editDescription").value,
+      fullDescription: document.getElementById("editDescription").value.trim(),
 
-      featured: document.getElementById("editFeatured").checked,
+      status,
+
+      homepagePlacements: placements,
+
+      featured: placements.includes("featured"),
 
       image: editingMainImage,
 
       gallery: editingGallery,
     });
 
-    alert("Property updated");
+    alert("Property updated successfully");
 
     closeEditModal();
 
-    loadProperties();
+    await loadProperties();
   } catch (error) {
     console.error(error);
 
@@ -642,42 +879,14 @@ window.savePropertyChanges = async () => {
   }
 };
 
-function renderGalleryPreview() {
-  const container = document.getElementById("editGalleryPreview");
-
-  container.innerHTML = "";
-
-  editingGallery.forEach((img, index) => {
-    container.innerHTML += `
-
-      <div class="gallery-item">
-
-        <img src="${img}">
-
-        <button
-          class="remove-gallery"
-          onclick="removeGalleryImage(${index})"
-        >
-          ×
-        </button>
-
-      </div>
-
-    `;
-  });
-}
-window.removeGalleryImage = (index) => {
-  editingGallery.splice(index, 1);
-
-  renderGalleryPreview();
-};
-
-/* MAIN IMAGE CHANGE */
+/* =========================================================
+   MAIN IMAGE
+========================================================= */
 
 document
   .getElementById("editMainImage")
-  .addEventListener("change", async (e) => {
-    const file = e.target.files[0];
+  ?.addEventListener("change", async (event) => {
+    const file = event.target.files[0];
 
     if (!file) return;
 
@@ -686,54 +895,112 @@ document
     document.getElementById("editMainPreview").src = editingMainImage;
   });
 
-/* GALLERY ADD */
+/* =========================================================
+   GALLERY
+========================================================= */
 
 document
   .getElementById("editGalleryImages")
-  .addEventListener("change", async (e) => {
-    const files = e.target.files;
+  ?.addEventListener("change", async (event) => {
+    const files = event.target.files;
 
-    for (let file of files) {
-      const base64 = await convertToBase64(file);
-
-      editingGallery.push(base64);
+    for (const file of files) {
+      editingGallery.push(await convertToBase64(file));
     }
 
     renderGalleryPreview();
   });
 
-/* =========================
-   LOAD PENDING PROPERTIES
-========================= */
+function renderGalleryPreview() {
+  const container = document.getElementById("editGalleryPreview");
 
-async function loadPendingProperties() {
-  const snapshot = await getDocs(collection(db, "properties"));
+  if (!container) return;
 
-  let properties = [];
+  container.innerHTML = "";
 
-  snapshot.forEach((docItem) => {
-    properties.push({
-      id: docItem.id,
-      ...docItem.data(),
-    });
+  editingGallery.forEach((image, index) => {
+    container.innerHTML += `
+
+        <div class="gallery-item">
+
+          <img
+            src="${image}"
+            alt="Gallery image"
+          >
+
+          <button
+            type="button"
+            class="remove-gallery"
+            onclick="removeGalleryImage(${index})"
+          >
+            ×
+          </button>
+
+        </div>
+
+      `;
   });
-
-  const pending = properties.filter(
-    (property) => property.approvalStatus === "pending"
-  );
-
-  renderPendingProperties(pending);
 }
 
-/* =========================
-   RENDER PENDING
-========================= */
+window.removeGalleryImage = (index) => {
+  editingGallery.splice(index, 1);
+
+  renderGalleryPreview();
+};
+
+/* =========================================================
+   PENDING PROPERTIES
+========================================================= */
+
+async function loadPendingProperties() {
+  try {
+    const snapshot = await getDocs(collection(db, "properties"));
+
+    const properties = [];
+
+    snapshot.forEach((docItem) => {
+      properties.push({
+        id: docItem.id,
+
+        ...docItem.data(),
+      });
+    });
+
+    const pending = properties.filter(
+      (property) => property.approvalStatus === "pending"
+    );
+
+    renderPendingProperties(pending);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+/* =========================================================
+   RENDER PENDING PROPERTIES
+========================================================= */
 
 function renderPendingProperties(properties) {
   pendingProperties.innerHTML = "";
 
   if (!properties.length) {
-    pendingProperties.innerHTML = "<p>No pending properties</p>";
+    pendingProperties.innerHTML = `
+
+      <div class="empty-admin-state">
+
+        <span>✓</span>
+
+        <strong>
+          No pending properties
+        </strong>
+
+        <p>
+          The property approval queue is clear.
+        </p>
+
+      </div>
+
+    `;
 
     return;
   }
@@ -741,65 +1008,105 @@ function renderPendingProperties(properties) {
   properties.forEach((property) => {
     pendingProperties.innerHTML += `
 
-      <div class="admin-property-card">
+        <div class="admin-property-card">
 
-        <img src="${property.image}">
-
-        <div class="admin-property-content">
-
-          <h3>
-            ${property.title}
-          </h3>
-
-          <p>
-            ₦${property.price.toLocaleString()}
-          </p>
-
-          <p>
-            ${property.location}
-          </p>
-
-          <p>
-            Agent:
-            ${property.agentName}
-          </p>
-
-          <div
-            class="admin-property-actions"
+          <img
+            src="${property.image || ""}"
+            alt="${property.title || "Property"}"
           >
 
-            <button
-              class="approve-btn"
-              onclick="approveProperty('${property.id}')"
-            >
-              Approve
-            </button>
 
-            <button
-              class="reject-btn"
-              onclick="rejectProperty('${property.id}')"
-            >
-              Reject
-            </button>
+          <div class="admin-property-content">
+
+            <h3>
+              ${property.title || "Untitled Property"}
+            </h3>
+
+            <p>
+              ₦${Number(property.price || 0).toLocaleString()}
+            </p>
+
+            <p>
+              ${property.location || "Nigeria"}
+            </p>
+
+            <p>
+              Agent:
+              ${property.agentName || "-"}
+            </p>
+
+
+            <div class="admin-property-actions">
+
+              <button
+                class="approve-btn"
+                onclick="approveProperty('${property.id}')"
+              >
+                Approve
+              </button>
+
+
+              <button
+                class="reject-btn"
+                onclick="rejectProperty('${property.id}')"
+              >
+                Reject
+              </button>
+
+            </div>
 
           </div>
 
         </div>
 
-      </div>
-
-    `;
+      `;
   });
 }
 
-window.updateHomepagePlacement = async (id, placement) => {
+/* =========================================================
+   APPROVE PROPERTY
+========================================================= */
+
+window.approveProperty = async (id) => {
   try {
     await updateDoc(doc(db, "properties", id), {
-      homepagePlacement: placement,
+      approvalStatus: "approved",
+
+      verified: true,
     });
 
-    alert("Homepage placement updated");
+    alert("Property approved");
+
+    await loadPendingProperties();
+
+    await loadProperties();
   } catch (error) {
     console.error(error);
+
+    alert("Error approving property");
+  }
+};
+
+/* =========================================================
+   REJECT PROPERTY
+========================================================= */
+
+window.rejectProperty = async (id) => {
+  if (!confirm("Reject and delete this property?")) {
+    return;
+  }
+
+  try {
+    await deleteDoc(doc(db, "properties", id));
+
+    alert("Property rejected");
+
+    await loadPendingProperties();
+
+    await loadProperties();
+  } catch (error) {
+    console.error(error);
+
+    alert("Error rejecting property");
   }
 };

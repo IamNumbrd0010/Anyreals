@@ -2,243 +2,455 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Anyreals</title>
+
+    <meta
+      name="description"
+      content="Discover verified properties, luxury homes, land and investment opportunities across Nigeria with Anyreals." />
+
+    <title>Anyreals | Premium Properties Across Nigeria</title>
+
     <link rel="stylesheet" href="styles.css" />
+
+    <link rel="stylesheet" href="homepage.css" />
   </head>
+
   <body>
-    <!-- NAVBAR -->
-    
-<header class="navbar">
+    <!-- =====================================================
+     NAVBAR
+===================================================== -->
 
-  <div class="logo">
-    Anyreals
-  </div>
+    <header class="navbar">
+      <div class="logo">Anyreals</div>
 
-  <div class="menu-toggle" id="menuToggle">
-    ☰
-  </div>
+      <div class="menu-toggle" id="menuToggle">☰</div>
 
-  <nav id="navMenu">
+      <nav id="navMenu">
+        <a href="index.html" class="active"> Home </a>
 
-    <a href="index.html">Home</a>
+        <a href="properties.html"> Properties </a>
 
-    <a href="properties.html">
-      Properties
-    </a>
+        <a href="property-services.html"> Property Services </a>
 
-    <a href="property-services.html">
-      Property Services
-    </a>
+        <div id="navAuth"></div>
+      </nav>
+    </header>
 
-    <div id="navAuth"></div>
+    <!-- =====================================================
+     DIAMOND HERO
+===================================================== -->
 
-  </nav>
+    <section class="diamond-hero" id="diamondHero">
+      <div class="hero-background"></div>
 
-</header>
-
-    <!-- HERO -->
-    <section class="hero">
-      <div class="overlay"></div>
+      <div class="hero-overlay"></div>
 
       <div class="hero-content">
-        <h1>Discover Exceptional Properties Across Nigeria</h1>
-        <p>Luxury Homes • Prime Investments • Trusted Agents</p>
+        <span class="hero-eyebrow"> PREMIUM PROPERTY MARKETPLACE </span>
 
-        <div class="search-box homepage-search">
-          <input type="text" id="searchLocation" placeholder="Location" />
+        <h1>
+          Discover Exceptional
+          <span>Properties Across Nigeria</span>
+        </h1>
+
+        <p>
+          Luxury homes, prime investments and trusted property professionals.
+        </p>
+
+        <div class="hero-search">
+          <div class="hero-search-field">
+            <span>⌖</span>
+
+            <input
+              type="text"
+              id="searchLocation"
+              placeholder="Where are you looking?" />
+          </div>
 
           <select id="searchType">
             <option value="">Property Type</option>
-            <option>Apartment</option>
-            <option>House</option>
-            <option>Land</option>
+
+            <option value="Apartment">Apartment</option>
+
+            <option value="House">House</option>
+
+            <option value="Land">Land</option>
           </select>
 
           <select id="searchPrice">
             <option value="">Price Range</option>
+
             <option value="low">Below ₦5M</option>
+
             <option value="mid">₦5M - ₦20M</option>
+
             <option value="high">Above ₦20M</option>
           </select>
 
-          <button onclick="handleSearch()">Search</button>
+          <button onclick="handleSearch()">Search Properties</button>
         </div>
       </div>
     </section>
 
-    <div class="hero-stats">
-      <div>
-        <h3 id="propertyCount">500+</h3>
-        <span>Properties</span>
+    <!-- =====================================================
+     STATS
+===================================================== -->
+
+    <section class="homepage-stats">
+      <div class="stats-inner">
+        <div class="stat-item">
+          <strong id="propertyCount"> 0 </strong>
+
+          <span> Verified Properties </span>
+        </div>
+
+        <div class="stat-divider"></div>
+
+        <div class="stat-item">
+          <strong id="agentCount"> 0 </strong>
+
+          <span> Trusted Agents </span>
+        </div>
+
+        <div class="stat-divider"></div>
+
+        <div class="stat-item">
+          <strong> 36 </strong>
+
+          <span> States Covered </span>
+        </div>
       </div>
-
-      <div>
-        <h3 id="agentCount">50+</h3>
-        <span>Agents</span>
-      </div>
-
-      <div>
-        <h3>36 States</h3>
-        <span>Coverage</span>
-      </div>
-    </div>
-
-    <!-- FEATURED -->
-    <section class="section featured-section">
-      <h2>Featured Collection</h2>
-
-      <p class="section-subtitle">Handpicked premium listings</p>
-
-      <div class="property-grid" id="featuredGrid"></div>
     </section>
-    <!-- Newest listings -->
-    <section class="section">
-      <h2>Just Listed</h2>
 
-      <p class="section-subtitle">Fresh opportunities added recently</p>
+    <!-- =====================================================
+     FEATURED COLLECTION
+===================================================== -->
+
+    <section class="section homepage-section featured-section">
+      <div class="section-heading">
+        <div>
+          <span class="section-kicker"> CURATED FOR YOU </span>
+
+          <h2>Featured Collection</h2>
+
+          <p class="section-subtitle">
+            Handpicked properties receiving special attention on Anyreals.
+          </p>
+        </div>
+
+        <button class="section-link" id="viewFeatured">
+          View All Featured →
+        </button>
+      </div>
+
+      <div class="property-grid featured-grid" id="featuredGrid"></div>
+    </section>
+
+    <!-- =====================================================
+     NEWEST LISTINGS
+===================================================== -->
+
+    <section class="section homepage-section newest-section">
+      <div class="section-heading">
+        <div>
+          <span class="section-kicker"> JUST ARRIVED </span>
+
+          <h2>Newest Listings</h2>
+
+          <p class="section-subtitle">
+            Fresh properties recently added to the Anyreals marketplace.
+          </p>
+        </div>
+
+        <button class="section-link" data-browse-properties>
+          Explore Properties →
+        </button>
+      </div>
 
       <div class="property-grid" id="newestGrid"></div>
     </section>
 
-    <!-- luxury section -->
+    <!-- =====================================================
+     LUXURY COLLECTION
+===================================================== -->
 
-    <section class="section luxury-section">
-      <h2>Luxury Collection</h2>
+    <section class="luxury-showcase">
+      <div class="luxury-heading">
+        <span class="section-kicker"> THE ANYREALS LUXURY EDIT </span>
 
-      <p class="section-subtitle">Nigeria's finest properties</p>
+        <h2>Exceptional Living.</h2>
 
-      <div class="property-grid" id="luxuryGrid"></div>
+        <p>Explore a collection of remarkable homes and premium real estate.</p>
+
+        <button class="luxury-button" data-browse-properties>
+          Explore Luxury Properties
+        </button>
+      </div>
+
+      <div class="luxury-grid" id="luxuryGrid"></div>
     </section>
 
-    <!-- sold/rented showcase -->
+    <!-- =====================================================
+     RECENTLY CLOSED
+===================================================== -->
 
-    <section class="section success-section">
-      <h2>Recently Closed Deals</h2>
+    <section class="section homepage-section success-section">
+      <div class="section-heading">
+        <div>
+          <span class="section-kicker"> SUCCESSFULLY CLOSED </span>
 
-      <p class="section-subtitle">Properties successfully sold or rented</p>
+          <h2>Recently Closed Deals</h2>
+
+          <p class="section-subtitle">
+            Properties successfully sold or rented through the Anyreals network.
+          </p>
+        </div>
+      </div>
 
       <div class="property-grid" id="soldGrid"></div>
     </section>
 
-    <!-- why? -->
+    <!-- =====================================================
+     WHY ANYREALS
+===================================================== -->
 
-    <section class="section light">
-      <h2>Why Choose Anyreals</h2>
+    <section class="why-section">
+      <div class="why-intro">
+        <span class="section-kicker"> THE ANYREALS DIFFERENCE </span>
+
+        <h2>Property searching, without the guesswork.</h2>
+
+        <p>
+          We bring property discovery, trusted professionals and essential
+          property services together in one place.
+        </p>
+      </div>
 
       <div class="why-grid">
         <div class="why-card">
+          <span class="why-number"> 01 </span>
+
           <h3>Verified Listings</h3>
 
-          <p>Every property is reviewed before publication.</p>
+          <p>
+            Properties go through an approval process before appearing on the
+            marketplace.
+          </p>
         </div>
 
         <div class="why-card">
+          <span class="why-number"> 02 </span>
+
           <h3>Trusted Agents</h3>
 
-          <p>Work directly with approved professionals.</p>
+          <p>
+            Connect with approved property professionals operating within the
+            Anyreals network.
+          </p>
         </div>
 
         <div class="why-card">
+          <span class="why-number"> 03 </span>
+
           <h3>Property Services</h3>
 
-          <p>Documentation, surveys and legal support.</p>
+          <p>
+            Access documentation, surveying and other property-related services.
+          </p>
         </div>
 
         <div class="why-card">
+          <span class="why-number"> 04 </span>
+
           <h3>Nationwide Reach</h3>
 
-          <p>Properties across Nigeria.</p>
+          <p>
+            Discover opportunities across cities and states throughout Nigeria.
+          </p>
         </div>
       </div>
     </section>
 
-    <!-- trusted agents  -->
+    <!-- =====================================================
+     TRUSTED AGENTS
+===================================================== -->
 
-    <section class="section">
-      <h2>Meet Our Trusted Agents</h2>
+    <section class="section homepage-section agents-section">
+      <div class="section-heading">
+        <div>
+          <span class="section-kicker"> PROFESSIONAL NETWORK </span>
+
+          <h2>Meet Our Trusted Agents</h2>
+
+          <p class="section-subtitle">
+            Property professionals approved to operate within the Anyreals
+            network.
+          </p>
+        </div>
+      </div>
 
       <div class="agent-grid" id="agentGrid"></div>
     </section>
 
-    <!-- testimonials -->
+    <!-- =====================================================
+     TESTIMONIALS
+===================================================== -->
 
-    <section class="section light">
-      <h2>Client Success Stories</h2>
+    <section class="testimonials-section">
+      <div class="section-heading centered">
+        <span class="section-kicker"> CLIENT STORIES </span>
+
+        <h2>Experiences that matter.</h2>
+      </div>
 
       <div class="testimonial-grid">
         <div class="testimonial-card">
+          <div class="quote-mark">“</div>
+
           <p>Found my first investment property through Anyreals.</p>
 
-          <h4>- Chinedu A.</h4>
+          <h4>Chinedu A.</h4>
         </div>
 
         <div class="testimonial-card">
+          <div class="quote-mark">“</div>
+
           <p>Smooth process and verified listings.</p>
 
-          <h4>- Grace O.</h4>
+          <h4>Grace O.</h4>
         </div>
 
         <div class="testimonial-card">
+          <div class="quote-mark">“</div>
+
           <p>Professional agents and excellent support.</p>
 
-          <h4>- Ibrahim K.</h4>
+          <h4>Ibrahim K.</h4>
         </div>
       </div>
     </section>
 
-    <!-- RECENTLY VIEWED -->
-    <section class="section" id="recentSection" style="display: none">
-      <h2>Recently Viewed</h2>
+    <!-- =====================================================
+     RECENTLY VIEWED
+===================================================== -->
+
+    <section
+      class="section homepage-section recent-section"
+      id="recentSection"
+      style="display: none">
+      <div class="section-heading">
+        <div>
+          <span class="section-kicker"> PICK UP WHERE YOU LEFT OFF </span>
+
+          <h2>Recently Viewed</h2>
+        </div>
+      </div>
+
       <div class="property-grid" id="recentGrid"></div>
     </section>
 
-    <!-- SERVICES PREVIEW -->
-    <section class="section light">
-      <h2>Property Services</h2>
-      <br /><br />
+    <!-- =====================================================
+     PROPERTY SERVICES
+===================================================== -->
+
+    <section class="services-showcase">
+      <div class="services-intro">
+        <span class="section-kicker"> BEYOND PROPERTY SEARCH </span>
+
+        <h2>Need help securing your property?</h2>
+
+        <p>
+          From documentation to property verification and surveying, explore
+          services designed to make property transactions easier.
+        </p>
+
+        <a href="property-services.html" class="services-button">
+          Explore Property Services
+        </a>
+      </div>
 
       <div class="services-grid">
-        <div class="service-card">C of O Processing</div>
-        <div class="service-card">Governor’s Consent</div>
-        <div class="service-card">Registered Survey</div>
+        <div class="service-card">
+          <span>01</span>
+
+          <h3>C of O Processing</h3>
+
+          <p>Property documentation support.</p>
+        </div>
+
+        <div class="service-card">
+          <span>02</span>
+
+          <h3>Governor's Consent</h3>
+
+          <p>Assistance with property title processes.</p>
+        </div>
+
+        <div class="service-card">
+          <span>03</span>
+
+          <h3>Registered Survey</h3>
+
+          <p>Professional land survey services.</p>
+        </div>
       </div>
-      <br /><br />
-      <a href="property-services.html" class="btn center">Explore Services</a>
     </section>
 
-    <!-- CTA -->
-    <section class="cta">
-      <h2>Looking to buy or secure your property?</h2>
-      <br />
+    <!-- =====================================================
+     FINAL CTA
+===================================================== -->
+
+    <section class="final-cta">
+      <div>
+        <span class="section-kicker"> YOUR NEXT PROPERTY STARTS HERE </span>
+
+        <h2>Ready to find your next opportunity?</h2>
+
+        <p>
+          Browse verified properties from trusted professionals across Nigeria.
+        </p>
+      </div>
+
       <button onclick="goToProperties()">Browse Properties</button>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-      <p>© 2026 Anyreals</p>
-    </footer>
-    <script>
+    <!-- =====================================================
+     FOOTER
+===================================================== -->
 
-      const menuToggle =
-        document.getElementById("menuToggle");
-      
-      const navMenu =
-        document.getElementById("navMenu");
-      
-      menuToggle.addEventListener(
-        "click",
-        () => {
-          navMenu.classList.toggle("active");
-        }
-      );
-      
-      </script>
-    
-    </script>
-    <script src="property.js"></script>
-    <script src="main.js"></script>
+    <footer class="footer">
+      <div class="footer-inner">
+        <div>
+          <div class="footer-logo">Anyreals</div>
+
+          <p>Discover. Connect. Own.</p>
+        </div>
+
+        <div class="footer-links">
+          <a href="index.html"> Home </a>
+
+          <a href="properties.html"> Properties </a>
+
+          <a href="property-services.html"> Services </a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 Anyreals. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- =====================================================
+     SCRIPTS
+===================================================== -->
+
+    <script type="module" src="main.js"></script>
+
     <script type="module" src="auth-state.js"></script>
+
     <script type="module" src="navbar.js"></script>
+
+    <script src="property.js"></script>
   </body>
 </html>

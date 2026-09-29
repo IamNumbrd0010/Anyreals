@@ -1,307 +1,688 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel - Anyreals</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="stylesheet" href="admin.css">
-</head>
-<body>
+    <title>Anyreals | Admin Control Center</title>
 
-  <header class="navbar">
+    <link rel="stylesheet" href="admin.css" />
+  </head>
 
-    <div class="logo">
-      Anyreals
-    </div>
-  
-    <div class="menu-toggle" id="menuToggle">
-      ☰
-    </div>
-  
-    <nav id="navMenu">
-  
-      <a href="index.html">Home</a>
-  
-      <a href="properties.html">
-        Properties
-      </a>
-  
-      <a href="property-services.html">
-        Property Services
-      </a>
-  
-      <div id="navAuth"></div>
-  
-    </nav>
-  
-  </header>
+  <body>
+    <!-- =========================
+       SIDEBAR
+  ========================== -->
 
-<section class="section admin-wrapper">
+    <aside class="admin-sidebar" id="adminSidebar">
+      <div class="sidebar-brand">
+        <div class="brand-mark">A</div>
 
-  <h1>Admin Control Center</h1>
+        <div>
+          <strong>Anyreals</strong>
+          <span>Admin Console</span>
+        </div>
+      </div>
 
-  <!-- STATS -->
-  <div class="admin-stats">
+      <div class="sidebar-label">MANAGEMENT</div>
 
-    <div class="stat-card">
-      <h3 id="totalUsers">0</h3>
-      <p>Total Users</p>
-    </div>
+      <nav class="sidebar-nav">
+        <a href="#dashboard" class="sidebar-link active">
+          <span class="nav-icon">⌂</span>
+          <span>Dashboard</span>
+        </a>
 
-    <div class="stat-card">
-      <h3 id="totalAgents">0</h3>
-      <p>Agents</p>
-    </div>
+        <a href="#agents" class="sidebar-link">
+          <span class="nav-icon">♙</span>
+          <span>Agents</span>
+        </a>
 
-    <div class="stat-card">
-      <h3 id="pendingAgents">0</h3>
-      <p>Pending Agents</p>
-    </div>
+        <a href="#properties" class="sidebar-link">
+          <span class="nav-icon">▦</span>
+          <span>Properties</span>
+        </a>
 
-  </div>
+        <a href="#promotions" class="sidebar-link">
+          <span class="nav-icon">◆</span>
+          <span>Homepage Promotions</span>
+        </a>
 
-  <hr style="margin:40px 0;">
+        <a href="#add-property" class="sidebar-link">
+          <span class="nav-icon">＋</span>
+          <span>Add Property</span>
+        </a>
+      </nav>
 
-  <h2>Pending Agent Applications</h2>
+      <div class="sidebar-label">QUICK LINKS</div>
 
-  <div id="pendingList" class="admin-grid"></div>
+      <nav class="sidebar-nav">
+        <a href="index.html" class="sidebar-link">
+          <span class="nav-icon">↗</span>
+          <span>View Website</span>
+        </a>
 
-</section>
+        <a href="properties.html" class="sidebar-link">
+          <span class="nav-icon">⌂</span>
+          <span>Browse Properties</span>
+        </a>
 
-<hr style="margin:60px 0;">
+        <a href="property-services.html" class="sidebar-link">
+          <span class="nav-icon">◇</span>
+          <span>Property Services</span>
+        </a>
+      </nav>
 
+      <div class="sidebar-bottom">
+        <div class="admin-profile-mini">
+          <div class="admin-avatar">A</div>
 
-<h2> Pending Property Approvals </h2>
+          <div>
+            <strong>Administrator</strong>
+            <span>System Admin</span>
+          </div>
+        </div>
 
-<div
-  id="pendingProperties"
-  class="admin-properties-grid"
-></div>
-<br>
-<hr style="margin:60px 0;">
-<h2>Add Property</h2>
+        <button
+          type="button"
+          class="sidebar-logout"
+          onclick="window.location.href='index.html'">
+          ← Exit Admin
+        </button>
+      </div>
+    </aside>
 
-<form id="propertyForm" class="admin-form">
+    <!-- =========================
+       MOBILE TOPBAR
+  ========================== -->
 
-  <input
-    type="text"
-    id="title"
-    placeholder="Property Title"
-    required
-  >
+    <header class="mobile-admin-header">
+      <div class="mobile-brand">
+        <div class="brand-mark">A</div>
 
-  <input
-    type="number"
-    id="price"
-    placeholder="Price"
-    required
-  >
+        <div>
+          <strong>Anyreals</strong>
+          <span>Admin</span>
+        </div>
+      </div>
 
-  <input
-    type="text"
-    id="location"
-    placeholder="Location"
-    required
-  >
-
-  <input
-    type="text"
-    id="address"
-    placeholder="Address"
-  >
-
-  <select id="type">
-
-    <option value="House">House</option>
-    <option value="Apartment">Apartment</option>
-    <option value="Land">Land</option>
-
-  </select>
-
-  <input
-    type="file"
-    id="mainImage"
-    placeholder="Main Image URL"
-    required
-  >
-
-  <input
-  type="file"
-  id="galleryImages"
-  multiple
-    placeholder="Paste gallery image URLs separated by commas"
-  >
-
-  <textarea
-    id="shortDescription"
-    placeholder="Short Description"
-  ></textarea>
-
-  <textarea
-    id="fullDescription"
-    placeholder="Full Description"
-  ></textarea>
-
-  <label>
-    <input type="checkbox" id="featured">
-    Featured Listing
-  </label>
-
-  <button type="submit">
-    Publish Property
-  </button>
-
-</form>
-
-<hr style="margin:60px 0;">
-
-<h2>Homepage Promotions</h2>
-
-<div class="admin-stats">
-
-  <div class="stat-card">
-    <h3 id="heroCount">0</h3>
-    <p>Hero Banners</p>
-  </div>
-
-  <div class="stat-card">
-    <h3 id="featuredCount">0</h3>
-    <p>Gold Featured Listings</p>
-  </div>
-
-  <div class="stat-card">
-    <h3 id="luxuryCount">0</h3>
-    <p>Luxury Collection</p>
-  </div>
-
-</div>
-
-<h2>Manage Properties</h2>
-
-
-
-<input
-  type="text"
-  id="propertySearch"
-  placeholder="Search properties..."
-  class="admin-search"
-/>
-
-<div
-  id="adminProperties"
-  class="admin-properties-grid"
-></div>
-
-<!-- EDIT MODAL -->
-
-<div
-  id="editModal"
-  class="modal"
->
-
- 
-
-    <div class="modal-content">
-
-      <span
-        class="close"
-        onclick="closeEditModal()"
-      >
-        ×
-      </span>
-    
-      <h2>Edit Property</h2>
-    
-      <input
-        type="text"
-        id="editTitle"
-        placeholder="Title"
-      >
-    
-      <input
-        type="number"
-        id="editPrice"
-        placeholder="Price"
-      >
-    
-      <input
-        type="text"
-        id="editLocation"
-        placeholder="Location"
-      >
-    
-      <textarea
-        id="editDescription"
-        placeholder="Description"
-      ></textarea>
-    
-      <!-- MAIN IMAGE -->
-    
-      <label>Main Image</label>
-    
-      <img
-        id="editMainPreview"
-        class="edit-preview"
-      >
-    
-      <input
-        type="file"
-        id="editMainImage"
-      >
-    
-      <!-- GALLERY -->
-    
-      <label>Gallery Images</label>
-    
-      <div
-        id="editGalleryPreview"
-        class="gallery-preview"
-      ></div>
-    
-      <input
-        type="file"
-        id="editGalleryImages"
-        multiple
-      >
-    
-      <label>
-        <input
-          type="checkbox"
-          id="editFeatured"
-        >
-        Featured
-      </label>
-    
-      <button
-        onclick="savePropertyChanges()"
-      >
-        Save Changes
+      <button type="button" id="mobileMenuToggle" class="mobile-menu-button">
+        ☰
       </button>
-      
-    
+    </header>
+
+    <!-- =========================
+       MAIN CONTENT
+  ========================== -->
+
+    <main class="admin-main" id="dashboard">
+      <!-- TOP HEADER -->
+
+      <section class="admin-topbar">
+        <div>
+          <span class="dashboard-eyebrow"> ANYREALS ADMINISTRATION </span>
+
+          <h1>Control Center</h1>
+
+          <p>
+            Manage properties, agents and the premium experience across the
+            Anyreals marketplace.
+          </p>
+        </div>
+
+        <a href="index.html" class="view-site-button"> View Website ↗ </a>
+      </section>
+
+      <!-- =========================
+         OVERVIEW
+    ========================== -->
+
+      <section class="dashboard-overview">
+        <div class="overview-card overview-card-main">
+          <div class="overview-card-icon">◈</div>
+
+          <div>
+            <span>Total Users</span>
+            <strong id="totalUsers">0</strong>
+            <small>Registered accounts</small>
+          </div>
+        </div>
+
+        <div class="overview-card">
+          <div class="overview-card-icon blue">♙</div>
+
+          <div>
+            <span>Verified Agents</span>
+            <strong id="totalAgents">0</strong>
+            <small>Approved professionals</small>
+          </div>
+        </div>
+
+        <div class="overview-card">
+          <div class="overview-card-icon gold">◷</div>
+
+          <div>
+            <span>Pending Agents</span>
+            <strong id="pendingAgents">0</strong>
+            <small>Awaiting review</small>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================
+         PROMOTION OVERVIEW
+    ========================== -->
+
+      <section class="dashboard-section" id="promotions">
+        <div class="section-heading">
+          <div>
+            <span class="section-eyebrow"> HOMEPAGE CONTROL </span>
+
+            <h2>Premium Placements</h2>
+
+            <p>
+              Control which properties receive premium visibility across the
+              Anyreals homepage.
+            </p>
+          </div>
+        </div>
+
+        <div class="promotion-stat-grid">
+          <div class="promotion-stat hero-stat">
+            <div class="promotion-stat-top">
+              <span>DIAMOND</span>
+              <span class="promotion-symbol">◆</span>
+            </div>
+
+            <strong id="heroCount">0</strong>
+
+            <p>Hero Banners</p>
+          </div>
+
+          <div class="promotion-stat featured-stat">
+            <div class="promotion-stat-top">
+              <span>FEATURED</span>
+              <span class="promotion-symbol">★</span>
+            </div>
+
+            <strong id="featuredCount">0</strong>
+
+            <p>Featured Listings</p>
+          </div>
+
+          <div class="promotion-stat luxury-stat">
+            <div class="promotion-stat-top">
+              <span>LUXURY</span>
+              <span class="promotion-symbol">✦</span>
+            </div>
+
+            <strong id="luxuryCount">0</strong>
+
+            <p>Luxury Collection</p>
+          </div>
+
+          <div class="promotion-stat sold-stat">
+            <div class="promotion-stat-top">
+              <span>SHOWCASE</span>
+              <span class="promotion-symbol">✓</span>
+            </div>
+
+            <strong id="soldCount">0</strong>
+
+            <p>Sold / Rented</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================
+         PENDING AGENTS
+    ========================== -->
+
+      <section class="dashboard-section" id="agents">
+        <div class="section-heading">
+          <div>
+            <span class="section-eyebrow"> VERIFICATION </span>
+
+            <h2>Pending Agent Applications</h2>
+
+            <p>Review professionals waiting to join the Anyreals network.</p>
+          </div>
+        </div>
+
+        <div id="pendingList" class="admin-grid"></div>
+      </section>
+
+      <!-- =========================
+         PENDING PROPERTIES
+    ========================== -->
+
+      <section class="dashboard-section">
+        <div class="section-heading">
+          <div>
+            <span class="section-eyebrow"> APPROVAL QUEUE </span>
+
+            <h2>Pending Property Approvals</h2>
+
+            <p>Properties submitted by agents awaiting approval.</p>
+          </div>
+        </div>
+
+        <div id="pendingProperties" class="admin-properties-grid"></div>
+      </section>
+
+      <!-- =========================
+         ADD PROPERTY
+    ========================== -->
+
+      <section class="dashboard-section" id="add-property">
+        <div class="section-heading">
+          <div>
+            <span class="section-eyebrow"> PROPERTY MANAGEMENT </span>
+
+            <h2>Add New Property</h2>
+
+            <p>Publish a new property directly to the Anyreals marketplace.</p>
+          </div>
+        </div>
+
+        <form id="propertyForm" class="admin-form">
+          <div class="form-section-title">Property Information</div>
+
+          <div class="form-field">
+            <label for="title"> Property Title </label>
+
+            <input
+              type="text"
+              id="title"
+              placeholder="e.g. Contemporary 5 Bedroom Residence"
+              required />
+          </div>
+
+          <div class="form-field">
+            <label for="price"> Price </label>
+
+            <input
+              type="number"
+              id="price"
+              placeholder="e.g. 85000000"
+              required />
+          </div>
+
+          <div class="form-field">
+            <label for="location"> Location </label>
+
+            <input
+              type="text"
+              id="location"
+              placeholder="e.g. Ikoyi, Lagos"
+              required />
+          </div>
+
+          <div class="form-field">
+            <label for="address"> Address </label>
+
+            <input
+              type="text"
+              id="address"
+              placeholder="Full property address" />
+          </div>
+
+          <div class="form-field">
+            <label for="type"> Property Type </label>
+
+            <select id="type">
+              <option value="House">House</option>
+
+              <option value="Apartment">Apartment</option>
+
+              <option value="Land">Land</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="status"> Property Status </label>
+
+            <select id="status">
+              <option value="available">Available</option>
+
+              <option value="sold">Sold</option>
+
+              <option value="rented">Rented</option>
+            </select>
+          </div>
+
+          <div class="form-field form-field-full">
+            <label for="mainImage"> Main Property Image </label>
+
+            <input type="file" id="mainImage" accept="image/*" required />
+          </div>
+
+          <div class="form-field form-field-full">
+            <label for="galleryImages"> Gallery Images </label>
+
+            <input type="file" id="galleryImages" accept="image/*" multiple />
+          </div>
+
+          <div class="form-field form-field-full">
+            <label for="shortDescription"> Short Description </label>
+
+            <textarea
+              id="shortDescription"
+              placeholder="Short description displayed on property cards..."></textarea>
+          </div>
+
+          <div class="form-field form-field-full">
+            <label for="fullDescription"> Full Description </label>
+
+            <textarea
+              id="fullDescription"
+              class="large-textarea"
+              placeholder="Full property description..."></textarea>
+          </div>
+
+          <!-- PLACEMENTS -->
+
+          <div class="form-field form-field-full">
+            <label class="placement-label"> Homepage Placements </label>
+
+            <p class="field-help">
+              A property can appear in multiple collections at the same time.
+            </p>
+
+            <div class="placement-options">
+              <label class="placement-option hero-option">
+                <input
+                  type="checkbox"
+                  name="homepagePlacement"
+                  value="hero"
+                  id="placementHero" />
+
+                <span class="placement-check"> ◆ </span>
+
+                <span>
+                  <strong>Diamond Hero</strong>
+                  <small>Premium homepage banner</small>
+                </span>
+              </label>
+
+              <label class="placement-option featured-option">
+                <input
+                  type="checkbox"
+                  name="homepagePlacement"
+                  value="featured"
+                  id="placementFeatured" />
+
+                <span class="placement-check"> ★ </span>
+
+                <span>
+                  <strong>Featured</strong>
+                  <small>Featured collection</small>
+                </span>
+              </label>
+
+              <label class="placement-option luxury-option">
+                <input
+                  type="checkbox"
+                  name="homepagePlacement"
+                  value="luxury"
+                  id="placementLuxury" />
+
+                <span class="placement-check"> ✦ </span>
+
+                <span>
+                  <strong>Luxury</strong>
+                  <small>Luxury collection</small>
+                </span>
+              </label>
+
+              <label class="placement-option sold-option">
+                <input
+                  type="checkbox"
+                  name="homepagePlacement"
+                  value="sold-showcase"
+                  id="placementSold" />
+
+                <span class="placement-check"> ✓ </span>
+
+                <span>
+                  <strong>Sold Showcase</strong>
+                  <small>Recently closed properties</small>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-field form-field-full">
+            <div class="admin-info-box">
+              <span>◆</span>
+
+              <div>
+                <strong>Promotion logic</strong>
+
+                <p>
+                  Newest Listings are automatic. Homepage placements above are
+                  optional and can overlap. For Sold Showcase, the property
+                  status must also be set to Sold or Rented.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="primary-admin-button form-field-full">
+            Publish Property
+          </button>
+        </form>
+      </section>
+
+      <!-- =========================
+         MANAGE PROPERTIES
+    ========================== -->
+
+      <section class="dashboard-section" id="properties">
+        <div class="section-heading property-heading">
+          <div>
+            <span class="section-eyebrow"> INVENTORY </span>
+
+            <h2>Manage Properties</h2>
+
+            <p>Search, edit, promote and manage property status.</p>
+          </div>
+
+          <div class="property-total">
+            <span>Listings</span>
+            <strong id="propertyTotal">0</strong>
+          </div>
+        </div>
+
+        <div class="property-toolbar">
+          <div class="search-wrapper">
+            <span>⌕</span>
+
+            <input
+              type="text"
+              id="propertySearch"
+              placeholder="Search by title, location or type..."
+              class="admin-search" />
+          </div>
+
+          <select id="propertyStatusFilter" class="property-filter">
+            <option value="all">All Statuses</option>
+
+            <option value="available">Available</option>
+
+            <option value="sold">Sold</option>
+
+            <option value="rented">Rented</option>
+          </select>
+        </div>
+
+        <div id="adminProperties" class="admin-properties-grid"></div>
+      </section>
+    </main>
+
+    <!-- =========================
+       EDIT PROPERTY MODAL
+  ========================== -->
+
+    <div id="editModal" class="modal">
+      <div class="modal-content">
+        <button type="button" class="modal-close" onclick="closeEditModal()">
+          ×
+        </button>
+
+        <div class="modal-header">
+          <span class="section-eyebrow"> PROPERTY EDITOR </span>
+
+          <h2>Edit Property</h2>
+
+          <p>Update listing information, status and homepage visibility.</p>
+        </div>
+
+        <div class="edit-form-grid">
+          <div class="form-field">
+            <label for="editTitle"> Property Title </label>
+
+            <input type="text" id="editTitle" placeholder="Title" />
+          </div>
+
+          <div class="form-field">
+            <label for="editPrice"> Price </label>
+
+            <input type="number" id="editPrice" placeholder="Price" />
+          </div>
+
+          <div class="form-field">
+            <label for="editLocation"> Location </label>
+
+            <input type="text" id="editLocation" placeholder="Location" />
+          </div>
+
+          <div class="form-field">
+            <label for="editStatus"> Property Status </label>
+
+            <select id="editStatus">
+              <option value="available">Available</option>
+
+              <option value="sold">Sold</option>
+
+              <option value="rented">Rented</option>
+            </select>
+          </div>
+
+          <div class="form-field form-field-full">
+            <label> Property Description </label>
+
+            <textarea
+              id="editDescription"
+              class="large-textarea"
+              placeholder="Description"></textarea>
+          </div>
+
+          <!-- EDIT MAIN IMAGE -->
+
+          <div class="form-field form-field-full">
+            <label> Main Image </label>
+
+            <img
+              id="editMainPreview"
+              class="edit-preview"
+              alt="Property preview" />
+
+            <input type="file" id="editMainImage" accept="image/*" />
+          </div>
+
+          <!-- EDIT GALLERY -->
+
+          <div class="form-field form-field-full">
+            <label> Gallery Images </label>
+
+            <div id="editGalleryPreview" class="gallery-preview"></div>
+
+            <input
+              type="file"
+              id="editGalleryImages"
+              accept="image/*"
+              multiple />
+          </div>
+
+          <!-- EDIT PLACEMENTS -->
+
+          <div class="form-field form-field-full">
+            <label class="placement-label"> Homepage Placements </label>
+
+            <p class="field-help">Select multiple placements if desired.</p>
+
+            <div class="placement-options edit-placement-options">
+              <label class="placement-option hero-option">
+                <input type="checkbox" id="editPlacementHero" value="hero" />
+
+                <span class="placement-check"> ◆ </span>
+
+                <span>
+                  <strong>Diamond Hero</strong>
+                  <small>Premium homepage banner</small>
+                </span>
+              </label>
+
+              <label class="placement-option featured-option">
+                <input
+                  type="checkbox"
+                  id="editPlacementFeatured"
+                  value="featured" />
+
+                <span class="placement-check"> ★ </span>
+
+                <span>
+                  <strong>Featured</strong>
+                  <small>Featured collection</small>
+                </span>
+              </label>
+
+              <label class="placement-option luxury-option">
+                <input
+                  type="checkbox"
+                  id="editPlacementLuxury"
+                  value="luxury" />
+
+                <span class="placement-check"> ✦ </span>
+
+                <span>
+                  <strong>Luxury</strong>
+                  <small>Luxury collection</small>
+                </span>
+              </label>
+
+              <label class="placement-option sold-option">
+                <input
+                  type="checkbox"
+                  id="editPlacementSold"
+                  value="sold-showcase" />
+
+                <span class="placement-check"> ✓ </span>
+
+                <span>
+                  <strong>Sold Showcase</strong>
+                  <small>Recently closed properties</small>
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          class="primary-admin-button"
+          onclick="savePropertyChanges()">
+          Save Property Changes
+        </button>
+      </div>
     </div>
 
-    <script>
+    <!-- =========================
+       MOBILE OVERLAY
+  ========================== -->
 
-      const menuToggle =
-        document.getElementById("menuToggle");
-      
-      const navMenu =
-        document.getElementById("navMenu");
-      
-      menuToggle.addEventListener(
-        "click",
-        () => {
-          navMenu.classList.toggle("active");
-        }
-      );
-      
-      </script>
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
 
-
-
-<script type="module" src="admin.js"></script>
-
-</body>
+    <script type="module" src="admin.js"></script>
+  </body>
 </html>
